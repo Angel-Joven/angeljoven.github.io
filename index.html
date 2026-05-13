@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="theme-color" content="#00acc1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Día de la Enfermera</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #e8f7ff, #ffffff, #ffeef4);
+      color: #263238;
+      min-height: 100vh;
+    }
+
+    header {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.28;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .circle.one {
+      width: 220px;
+      height: 220px;
+      background: #80deea;
+      top: 8%;
+      left: 8%;
+    }
+
+    .circle.two {
+      width: 180px;
+      height: 180px;
+      background: #f48fb1;
+      bottom: 10%;
+      right: 10%;
+      animation-delay: 1.5s;
+    }
+
+    .circle.three {
+      width: 120px;
+      height: 120px;
+      background: #b2ebf2;
+      bottom: 20%;
+      left: 15%;
+      animation-delay: 2.5s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-22px); }
+    }
+
+    .hero {
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(12px);
+      padding: 45px 30px;
+      border-radius: 30px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+      max-width: 900px;
+      z-index: 2;
+      animation: appear 1.2s ease;
+    }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(25px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .badge {
+      display: inline-block;
+      background: #00acc1;
+      color: white;
+      padding: 10px 22px;
+      border-radius: 999px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      color: #007c91;
+      margin-bottom: 18px;
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      color: #546e7a;
+      margin-bottom: 30px;
+    }
+
+    .heart {
+      font-size: 3.2rem;
+      animation: pulse 1.6s infinite;
+      margin-bottom: 18px;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.16); }
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      background: #ec407a;
+      color: white;
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: bold;
+      box-shadow: 0 10px 22px rgba(236, 64, 122, 0.35);
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      transform: translateY(-4px);
+      background: #d81b60;
+    }
+
+    section {
+      padding: 70px 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.3rem;
+      color: #007c91;
+      margin-bottom: 18px;
+    }
+
+    .section-text {
+      text-align: center;
+      max-width: 850px;
+      margin: 0 auto 45px;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #455a64;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: white;
+      padding: 28px;
+      border-radius: 24px;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.09);
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+    }
+
+    .card .icon {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+    }
+
+    .card h3 {
+      color: #00838f;
+      margin-bottom: 12px;
+      font-size: 1.35rem;
+    }
+
+    .card p {
+      color: #607d8b;
+      line-height: 1.6;
+    }
+
+    .message-box {
+      background: linear-gradient(135deg, #ffffff, #e0f7fa);
+      border-left: 8px solid #00acc1;
+      padding: 35px;
+      border-radius: 22px;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.08);
+      font-size: 1.15rem;
+      line-height: 1.9;
+      color: #37474f;
+    }
+
+    .quote {
+      text-align: center;
+      font-size: 1.6rem;
+      color: #ad1457;
+      font-weight: bold;
+      margin-top: 28px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 22px;
+      margin-top: 35px;
+    }
+
+    .photo-card {
+      min-height: 230px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, #b2ebf2, #f8bbd0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 25px;
+      font-size: 1.2rem;
+      color: #006064;
+      font-weight: bold;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+    }
+
+    footer {
+      text-align: center;
+      padding: 35px 20px;
+      background: #006064;
+      color: white;
+      margin-top: 40px;
+    }
+
+    footer p {
+      opacity: 0.95;
+    }
+
+    .name {
+      color: #ec407a;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        padding: 35px 22px;
+      }
+
+      section {
+        padding: 55px 18px;
+      }
+
+      .message-box {
+        padding: 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="circle one"></div>
+    <div class="circle two"></div>
+    <div class="circle three"></div>
+
+    <div class="hero">
+      <div class="badge">12 de mayo</div>
+      <div class="heart">💙🩺</div>
+      <h1>Feliz Día de la Enfermera</h1>
+      <p class="subtitle">
+        Mi amor, hoy quiero recordarte lo increíble, fuerte y hermosa que eres. Estoy demasiado orgulloso de la gran enfermera en la que te estás convirtiendo mi cielo hermoso 💖✨
+      </p>
+      <a href="#mensaje" class="btn">Dale clic aqui mi amoooooor:D 💖</a>
+    </div>
+  </header>
+
+  <section>
+    <h2 class="section-title">Lo mucho que admiro de ti</h2>
+    <p class="section-text">
+      Mi amor, quizá a veces no te das cuenta de lo increíble que eres pero quiero que sepas que personalmente yo sí lo veo. Veo tu gran esfuerzo, las veces que te cansas y que aun así sigues adelante. Me hace sentir demasiado orgulloso verte luchar por tus sueños, tus metas y objetivos y verte convertirte poquito a poquito en esa gran enfermera que sé, con todo mi corazón, que vas a ser mi amor ❤️✨
+    </p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="icon">🤍</div>
+        <h3>Tu vocación</h3>
+        <p>Porque amo la manera tan bonita en la que te preocupas por los demás, cómo das cariño y cómo siempre quieres ayudar sin importar el dia, la hora, el momento o que incluso si estas cansada. corazon de melon 💖</p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🩺</div>
+        <h3>Tu esfuerzo</h3>
+        <p>Porque veo todo lo que haces todos los días, tus actividades, tus procedimientos y por todo lo que luchas para poder cumplir tus sueños. De verdad admiro muchísimo eso de ti!! ❤️</p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🌷</div>
+        <h3>Tu corazón</h3>
+        <p>Porque detrás de ese uniforme está la mujer más hermosa e increíble que conozco, con un corazón enorme y una forma tan linda de cuidar a las personas y no sabes cuanto me enamora y hace ver lo afortunado que soy de tenerte en mi vida 💖✨</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="mensaje">
+    <h2 class="section-title">Un mensaje muy especial para ti, mi amor, mi enfermera grandiosa</h2>
+    <div class="message-box">
+      Mi amor, este hermoso texto y esta linda pagina no está hecha para cualquiera, está hecha especialmente para ti, para la mujer que amo muchísimo y que me hace sentir tan orgulloso todos los días 💖✨
+      <br><br>
+      Hoy quiero recordarte lo mucho que admiro todo lo que haces. Sé que no siempre es fácil, sé que hay días cansados, días pesados, momentos donde te estresas, donde te dan nervios, donde quizá dudas de ti pero aun así sigues adelante y eso, mi vida, habla muchísimo de la mujer tan fuerte, inteligente y valiente que eres.
+      <br><br>
+      No solo admiro a la enfermera en la que te estás convirtiendo, también admiro a la mujer tan hermosa que eres por dentro y por fuera. Amo tu forma de preocuparte por los demás, amo tu corazón tan bonito, amo cómo intentas dar lo mejor de ti aunque también tengas días difíciles pero quiero que sepas que no estas sola amor, siempre te voy a estar acompañando en todo momento mi vida hermosa porque te amo, te amo tanto, demasiado, no lo dudes nunca mi amor.
+      <br><br>
+      Me hace demasiado feliz verte crecer, verte aprender, verte esforzarte por conseguir tus metas, objetivos e incluso sueños y me alegra muchisimo saber que te estoy acompañando en una etapa tan importante de tu vida. Quiero que sepas que estoy inmensamente orgulloso de ti, de tus avances, de tus logros y hasta de esas pequeñas cosas que quizá tú no notas, pero yo sí.
+      <br><br>
+      Y quiero que nunca olvides algo: <strong>te amo mucho, pero muchísimo</strong>. Te amo en tus días bonitos y también en tus días cansados. Te amo cuando estás feliz, cuando estás sensible, cuando tienes miedo, cuando dudas y cuando necesitas que alguien te recuerde lo valiosa que eres.
+      <br><br>
+      Este precioso detalle la hice yo, <span class="name">tu novio</span>, pensando muchisimo en ti, con muchísimo amor, porque mereces algo bonito, algo tuyo, algo que te recuerde que eres una mujer increíble y que tienes a alguien que te ama, te admira y cree muchísimo en ti.
+      <br><br>
+      Mi vida preciosa, gracias por existir, por llegar a mi vida, por hacerme sentir tan feliz y por dejarme acompañarte. Siempre voy a estar aquí para apoyarte, escucharte, cuidarte, consentirte y recordarte que puedes con esto y con mucho más.
+      <br><br>
+      <em>Te amo, te amo mucho pero muchísimo mi vida hermosa 💗✨<br>— Con muchísimo amor, tu novio "A" 💖</em>
+    </div>
+    <p class="quote">“Cuidarte también es una forma hermosa de decirte que te amo.”</p>
+  </section>
+
+  <section>
+    <h2 class="section-title">Una frase para recordar</h2>
+    <div class="message-box" style="text-align:center;">
+      <p style="font-size:1.4rem; font-style:italic; color:#006064; line-height:1.8;">
+        “La enfermería es un arte; y si ha de ser realizada como un arte, requiere una devoción tan exclusiva y una preparación tan dura como la obra de cualquier pintor o escultor.”
+      </p>
+      <p style="margin-top:18px; font-weight:bold; color:#ec407a;">
+        — Florence Nightingale 💙
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Mi vida hermosa</h2>
+    <p class="section-text">
+      Te dedico hoy y siempre esta hermosa pagina, que la puedas ver siempre mi amor, porque eres la enfermera más especial para mí, mi novia hermosa y una de las personas más importantes de mi vida 💖✨
+      <br><br>
+      Quiero que sepas que te amo mucho pero muchísimo. Te amo por tu forma de ser, por tu corazón tan bonito, por todo el esfuerzo que haces, por cada esfuerzo, por nunca rendirte y por seguir adelante incluso cuando las cosas se ponen difíciles.
+      <br><br>
+      Me siento demasiado orgulloso de ti y de todo lo que estás logrando. Amo verte crecer, amo acompañarte en este camino y amo saber que estoy con una mujer tan fuerte, tan dulce, tan inteligente y tan especial como tú ❤️✨
+      <br><br>
+      Nunca olvides que te amo con todo mi corazón y que siempre voy a estar aquí para apoyarte, cuidarte, consentirte y recordarte lo increíblemente especial que eres para mí.
+    </p>
+
+    <div class="gallery">
+      <div class="photo-card">Para ti mi amor, porque te amo muchísimo 💖</div>
+      <div class="photo-card">Para la mujer que admiro con todo mi corazón ❤️</div>
+      <div class="photo-card">Para mi novia hermosa, mi orgullo y mi felicidad ✨</div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Hecho con muchísimo amor por tu novio que te ama mucho, mucho pero muchisimo, demasiado, mi vida preciosa y hermosa 💖✨</p>
+  </footer>
+
+  <script>
+    const btn = document.querySelector('.btn');
+
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.querySelector('#mensaje').scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  </script>
+</body>
+</html>
