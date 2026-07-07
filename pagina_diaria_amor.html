@@ -1,0 +1,3276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para mi amor 💖✨</title>
+  <style>
+    :root {
+      --bg-1: #ffe8f4;
+      --bg-2: #cdeeff;
+      --bg-3: #fff7d6;
+      --card: rgba(255, 255, 255, 0.42);
+      --card-border: rgba(255, 255, 255, 0.58);
+      --text: #583047;
+      --muted: rgba(88, 48, 71, 0.78);
+      --accent: #ff75b7;
+      --accent-2: #ffd36e;
+      --shadow: rgba(76, 34, 71, 0.18);
+      --pet-floor: rgba(159, 226, 170, 0.92);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      overflow-x: hidden;
+      font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 12% 15%, rgba(255,255,255,0.8), transparent 24%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2) 48%, var(--bg-3));
+      transition: background 1.4s ease, color 1.4s ease;
+    }
+
+    body.morning {
+      --bg-1: #ffe6f2;
+      --bg-2: #d3f0ff;
+      --bg-3: #fff3c0;
+      --card: rgba(255, 255, 255, 0.47);
+      --card-border: rgba(255, 255, 255, 0.68);
+      --text: #67324e;
+      --muted: rgba(103, 50, 78, 0.78);
+      --accent: #ff79bc;
+      --accent-2: #ffd46d;
+      --shadow: rgba(255, 118, 181, 0.22);
+      --pet-floor: rgba(159, 226, 170, 0.92);
+    }
+
+    body.afternoon {
+      --bg-1: #ffd5e8;
+      --bg-2: #ffc68a;
+      --bg-3: #ff9a9e;
+      --card: rgba(255, 248, 252, 0.35);
+      --card-border: rgba(255, 245, 250, 0.56);
+      --text: #6d3557;
+      --muted: rgba(109, 53, 87, 0.82);
+      --accent: #ff6faa;
+      --accent-2: #ffb05f;
+      --shadow: rgba(217, 111, 127, 0.28);
+      --pet-floor: rgba(211, 208, 133, 0.95);
+      background:
+        radial-gradient(circle at 78% 20%, rgba(255, 247, 186, 0.52), transparent 24%),
+        radial-gradient(circle at 15% 12%, rgba(255,255,255,0.30), transparent 16%),
+        linear-gradient(180deg, #ffcfb2 0%, #ffb3b8 35%, #ff8aa5 65%, #c58be6 100%);
+    }
+
+    body.night {
+      --bg-1: #090925;
+      --bg-2: #1b2455;
+      --bg-3: #57356f;
+      --card: rgba(255, 255, 255, 0.11);
+      --card-border: rgba(255, 255, 255, 0.24);
+      --text: #fff2fb;
+      --muted: rgba(255, 242, 251, 0.8);
+      --accent: #ff8acb;
+      --accent-2: #a9c6ff;
+      --shadow: rgba(0, 0, 0, 0.28);
+      --pet-floor: rgba(48, 85, 85, 0.7);
+      background:
+        radial-gradient(circle at 18% 18%, rgba(255,255,255,0.12), transparent 18%),
+        radial-gradient(circle at 72% 24%, rgba(255,138,203,0.13), transparent 28%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2) 52%, var(--bg-3));
+    }
+
+    .scene {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      padding: 30px 16px 245px;
+    }
+
+    .sky-layer, .effects-layer, .ground-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .sky-layer {
+      z-index: 1;
+    }
+
+    .effects-layer {
+      z-index: 4;
+    }
+
+    .ground-layer {
+      z-index: 14;
+    }
+
+    .sun, .moon {
+      position: absolute;
+      width: clamp(74px, 13vw, 132px);
+      height: clamp(74px, 13vw, 132px);
+      right: clamp(18px, 8vw, 120px);
+      top: clamp(28px, 9vh, 90px);
+      border-radius: 50%;
+      transition: opacity 1s ease, transform 1.2s ease, top 1.2s ease, right 1.2s ease;
+    }
+
+    .sun {
+      background:
+        radial-gradient(circle at 35% 35%, #fff8d8 0 18%, #ffe99a 30%, #ffc874 68%, #ffb4cf 100%);
+      box-shadow:
+        0 0 28px rgba(255, 230, 145, 0.95),
+        0 0 74px rgba(255, 175, 205, 0.58);
+      animation: floatSun 6s ease-in-out infinite;
+    }
+
+    body.afternoon .sun {
+      top: clamp(70px, 16vh, 140px);
+      right: clamp(28px, 11vw, 160px);
+      background:
+        radial-gradient(circle at 35% 35%, #fff3c2 0 18%, #ffd47f 33%, #ff9e68 68%, #ff7bac 100%);
+      box-shadow:
+        0 0 30px rgba(255, 197, 105, 0.95),
+        0 0 90px rgba(255, 132, 167, 0.4);
+    }
+
+    .sun::before, .sun::after {
+      content: "";
+      position: absolute;
+      inset: -22px;
+      border-radius: 50%;
+      border: 3px dashed rgba(255,255,255,0.46);
+      animation: spin 18s linear infinite;
+    }
+
+    .sun::after {
+      inset: -38px;
+      opacity: 0.4;
+      animation-duration: 28s;
+      animation-direction: reverse;
+    }
+
+    .moon {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.86);
+      overflow: hidden;
+      background: #fff7d8;
+      box-shadow:
+        0 0 22px rgba(255, 246, 210, 0.9),
+        0 0 72px rgba(169, 198, 255, 0.45);
+    }
+
+    .moon::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 32% 28%, rgba(255,255,255,0.72), transparent 12%),
+        radial-gradient(circle at 68% 62%, rgba(198,179,151,0.18), transparent 10%),
+        radial-gradient(circle at 42% 73%, rgba(198,179,151,0.14), transparent 9%);
+      z-index: 2;
+      mix-blend-mode: soft-light;
+    }
+
+    .moon-shadow {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: #1b2455;
+      opacity: 0.95;
+      z-index: 1;
+      transition: clip-path 1s ease, transform 1s ease, opacity 1s ease, background 1s ease;
+    }
+
+    .moon-label {
+      position: absolute;
+      width: max-content;
+      max-width: 190px;
+      right: clamp(10px, 6vw, 105px);
+      top: calc(clamp(28px, 9vh, 90px) + clamp(82px, 14vw, 142px));
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.86);
+      font-size: 0.86rem;
+      font-weight: 700;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: opacity 1s ease, transform 1s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    body.night .sun {
+      opacity: 0;
+      transform: translateY(10px) scale(0.8);
+    }
+
+    body.night .moon {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      animation: moonFloat 7s ease-in-out infinite;
+    }
+
+    body.night .moon-label {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    body.morning .moon, body.afternoon .moon {
+      opacity: 0;
+    }
+
+    .moon.new .moon-shadow { clip-path: circle(52% at 50% 50%); }
+    .moon.waxing-crescent .moon-shadow { clip-path: ellipse(66% 55% at 28% 50%); }
+    .moon.first-quarter .moon-shadow { clip-path: inset(0 50% 0 0); }
+    .moon.waxing-gibbous .moon-shadow { clip-path: ellipse(28% 55% at 8% 50%); }
+    .moon.full .moon-shadow { opacity: 0; }
+    .moon.waning-gibbous .moon-shadow { clip-path: ellipse(28% 55% at 92% 50%); }
+    .moon.last-quarter .moon-shadow { clip-path: inset(0 0 0 50%); }
+    .moon.waning-crescent .moon-shadow { clip-path: ellipse(66% 55% at 72% 50%); }
+
+    .cloud {
+      position: absolute;
+      width: var(--w);
+      height: calc(var(--w) * 0.28);
+      left: -28vw;
+      top: var(--top);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.74);
+      box-shadow:
+        calc(var(--w) * 0.18) calc(var(--w) * -0.10) 0 calc(var(--w) * 0.06) rgba(255,255,255,0.74),
+        calc(var(--w) * 0.36) calc(var(--w) * -0.16) 0 calc(var(--w) * 0.10) rgba(255,255,255,0.72),
+        calc(var(--w) * 0.58) calc(var(--w) * -0.08) 0 calc(var(--w) * 0.04) rgba(255,255,255,0.72);
+      filter: blur(0.2px);
+      opacity: 0.75;
+      animation: cloudMove var(--duration) linear infinite;
+      animation-delay: var(--delay);
+      transition: opacity 1s ease;
+    }
+
+    body.afternoon .cloud {
+      background: rgba(255, 243, 241, 0.68);
+      box-shadow:
+        calc(var(--w) * 0.18) calc(var(--w) * -0.10) 0 calc(var(--w) * 0.06) rgba(255, 242, 236, 0.68),
+        calc(var(--w) * 0.36) calc(var(--w) * -0.16) 0 calc(var(--w) * 0.10) rgba(255, 230, 214, 0.62),
+        calc(var(--w) * 0.58) calc(var(--w) * -0.08) 0 calc(var(--w) * 0.04) rgba(255, 235, 224, 0.62);
+    }
+
+    body.night .cloud {
+      opacity: 0.12;
+    }
+
+    .bird {
+      position: absolute;
+      width: 42px;
+      height: 18px;
+      left: -80px;
+      top: var(--top);
+      animation: birdFly var(--duration) linear infinite;
+      animation-delay: var(--delay);
+      opacity: 0.78;
+      transition: opacity 0.8s ease;
+    }
+
+    .bird::before, .bird::after {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 13px;
+      top: 2px;
+      border-top: 3px solid rgba(83, 58, 89, 0.65);
+      border-radius: 50%;
+      animation: flap 0.7s ease-in-out infinite;
+    }
+
+    body.afternoon .bird::before, body.afternoon .bird::after {
+      border-top-color: rgba(104, 65, 80, 0.72);
+    }
+
+    .bird::before {
+      left: 0;
+      transform-origin: right center;
+      transform: rotate(14deg);
+    }
+
+    .bird::after {
+      right: 0;
+      transform-origin: left center;
+      transform: rotate(-14deg);
+    }
+
+    body.night .bird {
+      opacity: 0;
+    }
+
+    .star {
+      position: absolute;
+      width: var(--s);
+      height: var(--s);
+      left: var(--x);
+      top: var(--y);
+      border-radius: 50%;
+      opacity: 0;
+      background: radial-gradient(circle, rgba(255,255,255,1) 0 34%, rgba(255,247,255,0.95) 35%, rgba(255,255,255,0.22) 72%, transparent 100%);
+      box-shadow:
+        0 0 8px rgba(255,255,255,0.95),
+        0 0 16px rgba(173, 211, 255, 0.45),
+        0 0 24px rgba(255, 163, 219, 0.18);
+      animation: twinkle var(--duration) ease-in-out infinite;
+      animation-delay: var(--delay);
+      will-change: transform, opacity;
+    }
+
+    .star::before,
+    .star::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      border-radius: 999px;
+      pointer-events: none;
+      opacity: 0.78;
+      background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.96) 50%, transparent 100%);
+      transform: translate(-50%, -50%);
+    }
+
+    .star::before {
+      width: 1.5px;
+      height: 250%;
+    }
+
+    .star::after {
+      width: 250%;
+      height: 1.5px;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.96) 50%, transparent 100%);
+    }
+
+    .shooting-star {
+      position: absolute;
+      width: 170px;
+      height: 8px;
+      top: var(--top);
+      left: var(--left);
+      opacity: 0;
+      transform: rotate(22deg);
+      transform-origin: right center;
+      background: transparent;
+      animation: shoot var(--duration) cubic-bezier(.22,.61,.36,1) infinite;
+      animation-delay: var(--delay);
+      will-change: transform, opacity;
+    }
+
+    .shooting-star::before {
+      content: "";
+      position: absolute;
+      inset: 50% 10px auto 0;
+      height: 2px;
+      transform: translateY(-50%);
+      border-radius: 999px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(173, 211, 255, 0.10) 18%,
+        rgba(255, 180, 225, 0.24) 42%,
+        rgba(255, 245, 252, 0.68) 78%,
+        rgba(255, 255, 255, 0.98) 100%);
+      box-shadow:
+        0 0 8px rgba(255,255,255,0.55),
+        0 0 20px rgba(173, 211, 255, 0.24);
+    }
+
+    .shooting-star::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 50%;
+      width: 7px;
+      height: 7px;
+      transform: translateY(-50%);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,242,250,0.96) 48%, rgba(255,255,255,0.18) 100%);
+      box-shadow:
+        0 0 8px rgba(255,255,255,0.95),
+        0 0 16px rgba(255, 179, 224, 0.44);
+    }
+
+    .comet {
+      position: absolute;
+      width: 185px;
+      height: 14px;
+      top: var(--top);
+      left: var(--left);
+      opacity: 0;
+      background: transparent;
+      transform: rotate(16deg);
+      transform-origin: right center;
+      animation: cometMove var(--duration) cubic-bezier(.22,.61,.36,1) infinite;
+      animation-delay: var(--delay);
+      will-change: transform, opacity;
+    }
+
+    .comet::before {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 50%;
+      width: 12px;
+      height: 12px;
+      transform: translateY(-50%);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,1) 0 32%, rgba(250,252,255,0.96) 52%, rgba(170, 214, 255, 0.42) 74%, rgba(255,255,255,0) 100%);
+      box-shadow:
+        0 0 10px rgba(255,255,255,0.95),
+        0 0 22px rgba(170, 214, 255, 0.5),
+        0 0 34px rgba(255, 170, 220, 0.2);
+    }
+
+    .comet::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 92%;
+      height: 4px;
+      transform: translateY(-50%);
+      border-radius: 999px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(169, 198, 255, 0.10) 12%,
+        rgba(202, 223, 255, 0.22) 35%,
+        rgba(255, 203, 233, 0.42) 66%,
+        rgba(255,255,255,0.94) 100%);
+      filter: blur(0.4px);
+      box-shadow: 0 0 18px rgba(255,255,255,0.18);
+    }
+
+    .sparkle, .mini-heart {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      opacity: 0;
+      animation: sparkleFloat var(--duration) ease-in-out infinite;
+      animation-delay: var(--delay);
+      color: var(--accent);
+      text-shadow: 0 0 12px rgba(255,255,255,0.6);
+      font-size: var(--s);
+    }
+
+    .mini-heart {
+      color: #ff6faf;
+      animation-name: heartFloat;
+    }
+
+    .tree {
+      position: absolute;
+      bottom: 0;
+      width: 120px;
+      height: 190px;
+      left: var(--x);
+      opacity: 0.85;
+      transform: scale(var(--scale));
+      transform-origin: bottom;
+      z-index: 1;
+    }
+
+    .tree::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 24px;
+      height: 96px;
+      transform: translateX(-50%);
+      border-radius: 18px 18px 0 0;
+      background: linear-gradient(#a77856, #75513d);
+    }
+
+    .tree::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 68px;
+      width: 118px;
+      height: 118px;
+      transform: translateX(-50%);
+      border-radius: 54% 46% 52% 48%;
+      background:
+        radial-gradient(circle at 32% 31%, rgba(255,255,255,0.25), transparent 18%),
+        linear-gradient(135deg, #aee7b6, #72c98d);
+      box-shadow:
+        -34px 20px 0 -12px #8edfa2,
+        32px 24px 0 -10px #77ce92;
+    }
+
+    body.afternoon .tree::after {
+      background:
+        radial-gradient(circle at 32% 31%, rgba(255,255,255,0.2), transparent 18%),
+        linear-gradient(135deg, #c9e8a8, #7dbf8b);
+      box-shadow:
+        -34px 20px 0 -12px #a7d798,
+        32px 24px 0 -10px #8ec995;
+    }
+
+    body.night .tree {
+      opacity: 0.6;
+      filter: saturate(0.65) brightness(0.72);
+    }
+
+    .hill {
+      position: absolute;
+      width: 120vw;
+      height: 185px;
+      left: -10vw;
+      bottom: -72px;
+      border-radius: 50% 50% 0 0;
+      background: linear-gradient(180deg, var(--pet-floor), rgba(112, 185, 135, 0.95));
+      transition: background 1s ease;
+      z-index: 0;
+    }
+
+    body.afternoon .hill {
+      background: linear-gradient(180deg, rgba(211, 208, 133, 0.95), rgba(120, 172, 115, 0.97));
+    }
+
+    body.night .hill {
+      background: linear-gradient(180deg, rgba(48, 85, 85, 0.7), rgba(26, 57, 62, 0.9));
+    }
+
+    .pet-zone {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 76px;
+      height: 138px;
+      pointer-events: none;
+      z-index: 30;
+      overflow: visible;
+    }
+
+    .creature {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: var(--pet-w, 78px);
+      height: var(--pet-h, 46px);
+      opacity: 0.98;
+      transform-origin: center center;
+      will-change: transform;
+      filter: drop-shadow(0 6px 10px rgba(75, 59, 72, 0.14));
+    }
+
+    .pet-heart {
+      position: absolute;
+      left: 32px;
+      top: -13px;
+      color: #ff6faf;
+      font-size: 16px;
+      text-shadow: 0 0 10px rgba(255,255,255,0.75);
+      animation: petHeart 1.9s ease-in-out infinite;
+      z-index: 6;
+    }
+
+    .pet-bubble {
+      position: absolute;
+      max-width: 205px;
+      min-width: 72px;
+      padding: 8px 10px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.94);
+      color: #6b3656;
+      font-size: 0.78rem;
+      font-weight: 750;
+      line-height: 1.28;
+      box-shadow: 0 10px 28px rgba(78, 43, 69, 0.18);
+      border: 1px solid rgba(255,255,255,0.88);
+      opacity: 0;
+      transform: translateY(8px) scale(0.92);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      z-index: 34;
+      pointer-events: none;
+      text-align: center;
+      text-wrap: balance;
+    }
+
+    .pet-bubble.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .pet-bubble::after {
+      content: "";
+      position: absolute;
+      left: 24px;
+      bottom: -8px;
+      width: 15px;
+      height: 15px;
+      background: rgba(255,255,255,0.94);
+      transform: rotate(45deg);
+      border-right: 1px solid rgba(255,255,255,0.88);
+      border-bottom: 1px solid rgba(255,255,255,0.88);
+    }
+
+    .trail {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      font-size: 15px;
+      opacity: 0.85;
+      transform: translate(-50%, 0);
+      animation: trailFade 1.9s ease-out forwards;
+      pointer-events: none;
+      z-index: 29;
+    }
+
+    .mouse {
+      --pet-w: 78px;
+      --pet-h: 43px;
+    }
+
+    .mouse .body {
+      position: absolute;
+      width: 58px;
+      height: 30px;
+      left: 10px;
+      bottom: 2px;
+      border-radius: 58% 44% 50% 52%;
+      background: #fff;
+      box-shadow: inset -6px -5px 0 rgba(235, 235, 245, 0.9);
+    }
+
+    .mouse .head {
+      position: absolute;
+      width: 25px;
+      height: 22px;
+      left: 1px;
+      bottom: 10px;
+      border-radius: 52% 60% 56% 46%;
+      background: #fff;
+      box-shadow: inset -2px -2px 0 rgba(236, 236, 245, 0.9);
+    }
+
+    .mouse .ear {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      left: 10px;
+      bottom: 22px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: inset 4px -4px 0 #ffd6e8;
+    }
+
+    .mouse .ear.back {
+      left: 20px;
+      bottom: 24px;
+      width: 13px;
+      height: 13px;
+      opacity: 0.9;
+    }
+
+    .mouse .eye {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      left: 9px;
+      bottom: 18px;
+      border-radius: 50%;
+      background: #c93f59;
+      box-shadow: 0 0 5px rgba(201, 63, 89, 0.8);
+      z-index: 2;
+    }
+
+    .mouse .nose {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      left: 0px;
+      bottom: 13px;
+      border-radius: 50%;
+      background: #ff95c7;
+      z-index: 2;
+    }
+
+    .mouse .whiskers {
+      position: absolute;
+      left: -8px;
+      bottom: 15px;
+      width: 18px;
+      height: 10px;
+    }
+
+    .mouse .whiskers::before, .mouse .whiskers::after {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 1px;
+      background: rgba(95, 85, 90, 0.65);
+      transform-origin: right center;
+    }
+
+    .mouse .whiskers::before {
+      transform: rotate(12deg);
+      top: 2px;
+    }
+
+    .mouse .whiskers::after {
+      transform: rotate(-10deg);
+      bottom: 2px;
+    }
+
+    .mouse .tail {
+      position: absolute;
+      right: -26px;
+      bottom: 10px;
+      width: 44px;
+      height: 24px;
+      border-bottom: 4px solid #ffb6d4;
+      border-radius: 50%;
+      transform: rotate(-4deg);
+    }
+
+    .mouse .leg, .cat .leg {
+      position: absolute;
+      width: 10px;
+      height: 9px;
+      bottom: 0;
+      background: var(--fur, #fff);
+      border-radius: 0 0 8px 8px;
+      animation: step 1.18s ease-in-out infinite;
+    }
+
+    .mouse .leg.one { left: 22px; }
+    .mouse .leg.two { left: 41px; animation-delay: -0.35s; }
+
+    .cat {
+      --pet-w: 88px;
+      --pet-h: 52px;
+      --fur: #e8a14f;
+      --collar: #111;
+    }
+
+    .cat .body {
+      position: absolute;
+      width: 58px;
+      height: 31px;
+      left: 22px;
+      bottom: 5px;
+      border-radius: 55% 48% 50% 50%;
+      background: var(--fur);
+      box-shadow: inset -7px -5px 0 rgba(0,0,0,0.08);
+    }
+
+    .cat .head {
+      position: absolute;
+      width: 31px;
+      height: 29px;
+      left: 5px;
+      bottom: 14px;
+      border-radius: 50%;
+      background: var(--fur);
+      box-shadow: inset -4px -3px 0 rgba(0,0,0,0.06);
+    }
+
+    .cat .ear {
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 16px solid var(--fur);
+      bottom: 36px;
+      z-index: 2;
+    }
+
+    .cat .ear.left { left: 8px; transform: rotate(-18deg); }
+    .cat .ear.right { left: 25px; transform: rotate(18deg); }
+
+    .cat .eye {
+      position: absolute;
+      width: 4px;
+      height: 5px;
+      bottom: 26px;
+      border-radius: 50%;
+      background: #273238;
+      z-index: 3;
+    }
+
+    .cat.black .eye { background: #ffeeb5; box-shadow: 0 0 5px rgba(255,238,181,0.9); }
+
+    .cat .eye.one { left: 13px; }
+    .cat .eye.two { left: 25px; }
+
+    .cat .nose {
+      position: absolute;
+      width: 5px;
+      height: 4px;
+      left: 19px;
+      bottom: 22px;
+      border-radius: 50%;
+      background: #ff92b6;
+      z-index: 3;
+    }
+
+    .cat .collar {
+      position: absolute;
+      width: 25px;
+      height: 5px;
+      left: 8px;
+      bottom: 14px;
+      border-radius: 999px;
+      background: var(--collar);
+      z-index: 4;
+      box-shadow: 0 1px 0 rgba(255,255,255,0.18);
+    }
+
+    .cat .tail {
+      position: absolute;
+      right: -4px;
+      bottom: 21px;
+      width: 32px;
+      height: 32px;
+      border-top: 7px solid var(--fur);
+      border-right: 7px solid var(--fur);
+      border-radius: 50%;
+      transform: rotate(25deg);
+      transform-origin: left bottom;
+      animation: tailWiggle 2.8s ease-in-out infinite;
+    }
+
+    .cat .leg.one { left: 36px; }
+    .cat .leg.two { left: 58px; animation-delay: -0.35s; }
+
+    .cat.black {
+      --fur: #11131b;
+      --collar: #fff;
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,0.22));
+    }
+
+    .cat.gray {
+      --fur: #aeb3bd;
+      --collar: #fff2a6;
+    }
+
+    .cat.bone {
+      --fur: #f2e7cf;
+      --collar: #6fcf88;
+    }
+
+    .card {
+      position: relative;
+      z-index: 10;
+      width: min(840px, 92vw);
+      border: 1px solid var(--card-border);
+      background: var(--card);
+      border-radius: 22px;
+      padding: clamp(18px, 4vw, 42px);
+      box-shadow:
+        0 24px 80px var(--shadow),
+        inset 0 1px 0 rgba(255,255,255,0.45);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      right: -90px;
+      top: -110px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.36), transparent 68%);
+      pointer-events: none;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      width: 230px;
+      height: 230px;
+      left: -90px;
+      bottom: -120px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,117,183,0.25), transparent 68%);
+      pointer-events: none;
+    }
+
+    .dedication, .from-note {
+      position: relative;
+      z-index: 2;
+      margin: 0 auto 8px;
+      color: var(--muted);
+      font-size: clamp(0.92rem, 2.1vw, 1.08rem);
+      line-height: 1.5;
+      font-family: "Segoe Script", "Brush Script MT", cursive;
+      font-style: italic;
+      text-wrap: balance;
+    }
+
+    .from-note {
+      margin-top: 22px;
+      margin-bottom: 0;
+    }
+
+    .dedication strong, .from-note strong {
+      display: inline-block;
+      margin-top: 4px;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .daniela-name {
+      position: relative;
+      z-index: 2;
+      margin: 6px 0 14px;
+      font-size: clamp(2.7rem, 9vw, 6.2rem);
+      line-height: 0.95;
+      font-weight: 950;
+      letter-spacing: -3px;
+      background: linear-gradient(90deg, #ff5aa8, #fff3bb, #ff8fcb, #ffffff, #ff5aa8);
+      background-size: 260% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow:
+        0 0 18px rgba(255, 120, 190, 0.32),
+        0 0 38px rgba(255, 211, 110, 0.22);
+      animation: nameShine 7.2s linear infinite, nameGlow 4.8s ease-in-out infinite;
+    }
+
+    .badge {
+      position: relative;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 13px;
+      margin-bottom: 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.34);
+      border: 1px solid rgba(255,255,255,0.48);
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      box-shadow: 0 10px 32px rgba(0,0,0,0.06);
+      font-size: 0.75rem;
+    }
+
+    .heart-main {
+      position: relative;
+      z-index: 2;
+      width: clamp(62px, 11vw, 96px);
+      height: clamp(62px, 11vw, 96px);
+      margin: 2px auto 14px;
+      animation: beat 1.7s ease-in-out infinite;
+      filter: drop-shadow(0 12px 25px rgba(255, 105, 173, 0.35));
+    }
+
+    .heart-shape {
+      position: absolute;
+      inset: 10%;
+      display: grid;
+      place-items: center;
+      transform: translateY(1px);
+    }
+
+    .heart-shape svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      overflow: visible;
+      filter: drop-shadow(0 8px 18px rgba(255, 79, 157, 0.18));
+    }
+
+    .heart-glow {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.34), transparent 65%);
+      animation: glowPulse 2.6s ease-in-out infinite;
+    }
+
+    h1 {
+      position: relative;
+      z-index: 2;
+      margin: 0;
+      font-size: clamp(1.55rem, 4.5vw, 3.25rem);
+      line-height: 1;
+      letter-spacing: -1.2px;
+      text-wrap: balance;
+    }
+
+    .subtitle {
+      position: relative;
+      z-index: 2;
+      margin: 14px auto 0;
+      max-width: 700px;
+      color: var(--muted);
+      font-size: clamp(0.96rem, 2.1vw, 1.16rem);
+      line-height: 1.55;
+      text-wrap: pretty;
+    }
+
+    .phrase-box {
+      position: relative;
+      z-index: 2;
+      margin: 20px auto 0;
+      max-width: 700px;
+      padding: clamp(14px, 3vw, 22px);
+      border-radius: 22px;
+      background: rgba(255,255,255,0.28);
+      border: 1px solid rgba(255,255,255,0.42);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.36);
+    }
+
+    .phrase {
+      margin: 0;
+      font-size: clamp(1rem, 2.45vw, 1.42rem);
+      line-height: 1.42;
+      font-weight: 800;
+      text-wrap: pretty;
+    }
+
+    .daily-note {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: clamp(0.86rem, 1.9vw, 0.98rem);
+      line-height: 1.65;
+    }
+
+    .signature {
+      position: relative;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 18px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      color: var(--text);
+      background: rgba(255,255,255,0.27);
+      border: 1px solid rgba(255,255,255,0.38);
+    }
+
+    .controls {
+      position: fixed;
+      z-index: 40;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      padding: 6px;
+      border: 1px solid rgba(255,255,255,0.42);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.24);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      box-shadow: 0 16px 44px rgba(0,0,0,0.14);
+    }
+
+    .controls button {
+      border: 0;
+      border-radius: 999px;
+      padding: 7px 10px;
+      cursor: pointer;
+      font-weight: 800;
+      color: var(--text);
+      background: rgba(255,255,255,0.45);
+      transition: transform 0.2s ease, background 0.2s ease;
+      font-size: 0.78rem;
+    }
+
+    .controls button:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.68);
+    }
+
+    .controls button.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff;
+      box-shadow: 0 8px 22px rgba(255, 112, 174, 0.28);
+    }
+
+
+    .dedication-name,
+    .moon-label {
+      display: none !important;
+    }
+
+    .daniela-name {
+      display: block !important;
+    }
+
+    .pet-bubble {
+      max-width: 150px;
+      padding: 7px 10px;
+      font-size: 0.74rem;
+      line-height: 1.25;
+      z-index: 36;
+    }
+
+    .pet-zone {
+      bottom: 58px;
+      height: 112px;
+    }
+
+
+    .pet-bubble {
+      transform-origin: center bottom;
+    }
+
+    .pet-bubble::after {
+      left: 50%;
+      transform: translateX(-50%) rotate(45deg);
+    }
+
+    .creature {
+      transition: filter 0.25s ease;
+    }
+
+    @keyframes floatSun {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(10px); }
+    }
+
+    @keyframes moonFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(8px) scale(1.03); }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes cloudMove {
+      from { transform: translateX(-15vw); }
+      to { transform: translateX(145vw); }
+    }
+
+    @keyframes birdFly {
+      from { transform: translateX(-8vw) translateY(0); }
+      30% { transform: translateX(35vw) translateY(-10px); }
+      60% { transform: translateX(75vw) translateY(8px); }
+      to { transform: translateX(118vw) translateY(-5px); }
+    }
+
+    @keyframes flap {
+      0%, 100% { transform: rotate(12deg); }
+      50% { transform: rotate(16deg); }
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.18; transform: scale(0.78) rotate(0deg); }
+      25% { opacity: 0.56; transform: scale(1.02) rotate(8deg); }
+      50% { opacity: 1; transform: scale(1.28) rotate(0deg); }
+      75% { opacity: 0.42; transform: scale(0.92) rotate(-8deg); }
+    }
+
+    @keyframes shoot {
+      0%, 74% { opacity: 0; transform: translate3d(0, 0, 0) rotate(22deg) scale(0.92); }
+      78% { opacity: 0.96; }
+      100% { opacity: 0; transform: translate3d(48vw, 22vh, 0) rotate(22deg) scale(1.03); }
+    }
+
+    @keyframes cometMove {
+      0%, 68% { opacity: 0; transform: translate3d(0, 0, 0) rotate(16deg) scale(0.96); }
+      73% { opacity: 0.95; }
+      100% { opacity: 0; transform: translate3d(54vw, 26vh, 0) rotate(16deg) scale(1.02); }
+    }
+
+    @keyframes sparkleFloat {
+      0%, 100% { opacity: 0; transform: translateY(12px) scale(0.72) rotate(0deg); }
+      45% { opacity: 1; transform: translateY(-8px) scale(1.08) rotate(14deg); }
+      75% { opacity: 0.3; transform: translateY(-20px) scale(0.84) rotate(-10deg); }
+    }
+
+    @keyframes heartFloat {
+      0%, 100% { opacity: 0; transform: translateY(18px) scale(0.7); }
+      50% { opacity: 0.88; transform: translateY(-18px) scale(1.08); }
+    }
+
+    @keyframes beat {
+      0%, 100% { transform: scale(1); }
+      16% { transform: scale(1.08); }
+      32% { transform: scale(1); }
+      48% { transform: scale(1.05); }
+      64% { transform: scale(1); }
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.45; transform: scale(1); }
+      50% { opacity: 0.9; transform: scale(1.14); }
+    }
+
+    @keyframes step {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
+    }
+
+    @keyframes petHeart {
+      0%, 100% { transform: translateY(0) scale(0.9); opacity: 0.75; }
+      50% { transform: translateY(-7px) scale(1.16); opacity: 1; }
+    }
+
+    @keyframes tailWiggle {
+      0%, 100% { transform: rotate(18deg); }
+      50% { transform: rotate(36deg); }
+    }
+
+    @keyframes trailFade {
+      0% { opacity: 0.85; transform: translate(-50%, 0) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -26px) scale(0.78); }
+    }
+
+    @keyframes nameShine {
+      to { background-position: 260% center; }
+    }
+
+    @keyframes nameGlow {
+      0%, 100% {
+        filter: drop-shadow(0 0 10px rgba(255, 111, 175, 0.28));
+      }
+      50% {
+        filter: drop-shadow(0 0 26px rgba(255, 230, 150, 0.5));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .scene {
+        padding: 10px 8px 168px;
+        align-items: start;
+      }
+
+      .card {
+        width: min(93vw, 400px);
+        margin-top: 8px;
+        border-radius: 24px;
+        padding: 14px 12px 16px;
+      }
+
+      .dedication,
+      .from-note {
+        font-size: 0.75rem;
+        line-height: 1.32;
+        margin-bottom: 4px;
+      }
+
+      .from-note {
+        margin-top: 14px;
+      }
+
+      .daniela-name {
+        font-size: clamp(2.35rem, 13vw, 4rem);
+        letter-spacing: -1.8px;
+        margin: 2px 0 8px;
+        line-height: 0.88;
+      }
+
+      .badge {
+        padding: 7px 10px;
+        margin-bottom: 10px;
+        font-size: 0.75rem;
+      }
+
+      .heart-main {
+        width: 54px;
+        height: 54px;
+        margin: 0 auto 10px;
+      }
+
+      h1 {
+        font-size: clamp(1.45rem, 7vw, 2.1rem);
+        letter-spacing: -0.8px;
+      }
+
+      .subtitle {
+        margin-top: 10px;
+        font-size: 0.78rem;
+        line-height: 1.46;
+      }
+
+      .phrase-box {
+        margin-top: 12px;
+        padding: 11px 10px;
+        border-radius: 21px;
+      }
+
+      .phrase {
+        font-size: clamp(0.94rem, 4.6vw, 1.14rem);
+        line-height: 1.43;
+      }
+
+      .daily-note {
+        margin-top: 9px;
+        font-size: 0.82rem;
+        line-height: 1.45;
+      }
+
+      .signature {
+        margin-top: 15px;
+        padding: 8px 10px;
+        font-size: 0.78rem;
+      }
+
+      .controls {
+        width: auto;
+        max-width: calc(100vw - 18px);
+        justify-content: center;
+        border-radius: 999px;
+        gap: 4px;
+        padding: 4px;
+        bottom: 8px;
+        background: rgba(255,255,255,0.18);
+        opacity: 0.82;
+      }
+
+      .controls button {
+        flex: 0 0 auto;
+        padding: 6px 8px;
+        font-size: 0.7rem;
+      }
+
+      .tree {
+        opacity: 0.42;
+      }
+
+      .tree:nth-child(odd) {
+        display: none;
+      }
+
+      .hill {
+        height: 145px;
+        bottom: -62px;
+      }
+
+      .pet-zone {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 52px;
+        height: 96px;
+        z-index: 34;
+        overflow: visible;
+        background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.04) 45%, rgba(0,0,0,0.04) 100%);
+      }
+
+      .pet-bubble {
+        max-width: 118px;
+        font-size: 0.66rem;
+        padding: 6px 7px;
+        border-radius: 15px;
+        line-height: 1.22;
+      }
+
+      .pet-bubble::after {
+        width: 12px;
+        height: 12px;
+        bottom: -6px;
+      }
+
+      .creature {
+        transform-origin: center bottom;
+      }
+
+      .cat {
+        transform-origin: center bottom;
+      }
+
+      .creature.mobile-off,
+      .pet-bubble.mobile-off {
+        opacity: 0 !important;
+        visibility: hidden !important;
+      }
+
+      .sun,
+      .moon {
+        width: 62px;
+        height: 62px;
+        top: 16px;
+        right: 18px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="scene" aria-live="polite">
+    <div class="sky-layer" id="skyLayer">
+      <div class="sun" aria-hidden="true"></div>
+      <div class="moon" id="moon" aria-hidden="true"><span class="moon-shadow"></span></div>
+      <div class="moon-label" id="moonLabel">Luna de hoy</div>
+    </div>
+
+    <div class="effects-layer" id="effectsLayer"></div>
+
+    <section class="card">
+      <p class="dedication">✨💖 Para mi novia hermosa:<br><strong class="dedication-name">Daniela</strong></p>
+
+      <div class="daniela-name">Daniela</div>
+
+      <div class="badge" id="periodBadge">💗 Cargando un mensaje bonito...</div>
+
+      <div class="heart-main" aria-hidden="true">
+        <div class="heart-glow"></div>
+        
+        <div class="heart-shape">
+          <svg viewBox="0 0 100 92" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <linearGradient id="mainHeartGradient" x1="12%" y1="10%" x2="88%" y2="92%">
+                <stop offset="0%" stop-color="#ff82bc" />
+                <stop offset="100%" stop-color="#ff4f9d" />
+              </linearGradient>
+              <linearGradient id="heartShineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="rgba(255,255,255,0.80)" />
+                <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+              </linearGradient>
+            </defs>
+            <path d="M50 86C47 83 41 78 34 72C18 58 5 46 5 28C5 14 16 5 29 5C39 5 47 10 50 18C53 10 61 5 71 5C84 5 95 14 95 28C95 46 82 58 66 72C59 78 53 83 50 86Z"
+                  fill="url(#mainHeartGradient)"/>
+            <path d="M50 79C47 76 42 72 36 67C21 54 10 43 10 28C10 17 18 10 28 10C37 10 44 15 47 22C48 24 52 24 53 22C56 15 63 10 72 10C82 10 90 17 90 28C90 43 79 54 64 67C58 72 53 76 50 79Z"
+                  fill="rgba(255,255,255,0.06)"/>
+            <ellipse cx="38" cy="28" rx="19" ry="12" fill="rgba(255,255,255,0.14)" transform="rotate(-18 38 28)"/>
+            <ellipse cx="31" cy="23" rx="10" ry="6" fill="rgba(255,255,255,0.20)" transform="rotate(-18 31 23)"/>
+          </svg>
+        </div>
+
+      </div>
+
+      <h1 id="mainTitle">Para mi novia hermosa</h1>
+
+      <p class="subtitle" id="subtitle">
+        Una página hecha con muchísimo amor para recordarte que eres increíble, grandiosa y que mereces todo lo bonito de esta vida. 💖✨
+      </p>
+
+      <div class="phrase-box">
+        <p class="phrase" id="phrase"></p>
+        <p class="daily-note" id="dailyNote"></p>
+      </div>
+
+      <div class="signature" id="signature">
+        💌 Con todo el amor de tu novio hermoso 💖
+      </div>
+
+      <p class="from-note">💖✨ De parte de tu novio hermoso:<br><strong>Angel</strong></p>
+    </section>
+
+    <div class="ground-layer" id="groundLayer">
+      <div class="hill"></div>
+      <div class="tree" style="--x: 4%; --scale: .92"></div>
+      <div class="tree" style="--x: 18%; --scale: .68"></div>
+      <div class="tree" style="--x: 77%; --scale: .82"></div>
+      <div class="tree" style="--x: 89%; --scale: .62"></div>
+
+      <div class="pet-zone" id="petZone" aria-hidden="true">
+        <div class="creature mouse" id="yuancito" data-pet="yuancito">
+          <span class="pet-heart">♥</span>
+          <span class="tail"></span>
+          <span class="body"></span>
+          <span class="head"></span>
+          <span class="ear"></span>
+          <span class="ear back"></span>
+          <span class="eye"></span>
+          <span class="nose"></span>
+          <span class="whiskers"></span>
+          <span class="leg one"></span>
+          <span class="leg two"></span>
+        </div>
+
+        <div class="creature cat orange" id="catOrange" data-pet="catOrange">
+          <span class="pet-heart">♥</span>
+          <span class="tail"></span><span class="body"></span><span class="head"></span>
+          <span class="ear left"></span><span class="ear right"></span>
+          <span class="eye one"></span><span class="eye two"></span><span class="nose"></span>
+          <span class="collar"></span><span class="leg one"></span><span class="leg two"></span>
+        </div>
+
+        <div class="creature cat black" id="catBlack" data-pet="catBlack">
+          <span class="pet-heart">♥</span>
+          <span class="tail"></span><span class="body"></span><span class="head"></span>
+          <span class="ear left"></span><span class="ear right"></span>
+          <span class="eye one"></span><span class="eye two"></span><span class="nose"></span>
+          <span class="collar"></span><span class="leg one"></span><span class="leg two"></span>
+        </div>
+
+        <div class="creature cat gray" id="catGray" data-pet="catGray">
+          <span class="pet-heart">♥</span>
+          <span class="tail"></span><span class="body"></span><span class="head"></span>
+          <span class="ear left"></span><span class="ear right"></span>
+          <span class="eye one"></span><span class="eye two"></span><span class="nose"></span>
+          <span class="collar"></span><span class="leg one"></span><span class="leg two"></span>
+        </div>
+
+        <div class="creature cat bone" id="catBone" data-pet="catBone">
+          <span class="pet-heart">♥</span>
+          <span class="tail"></span><span class="body"></span><span class="head"></span>
+          <span class="ear left"></span><span class="ear right"></span>
+          <span class="eye one"></span><span class="eye two"></span><span class="nose"></span>
+          <span class="collar"></span><span class="leg one"></span><span class="leg two"></span>
+        </div>
+      </div>
+    </div>
+
+    <nav class="controls" aria-label="Cambiar vista de la página">
+      <button type="button" data-mode="auto" class="active">Auto</button>
+      <button type="button" data-mode="morning">Mañana</button>
+      <button type="button" data-mode="afternoon">Tarde</button>
+      <button type="button" data-mode="night">Noche</button>
+    </nav>
+  </main>
+
+  <script>
+    const body = document.body;
+    const skyLayer = document.getElementById("skyLayer");
+    const effectsLayer = document.getElementById("effectsLayer");
+    const periodBadge = document.getElementById("periodBadge");
+    const mainTitle = document.getElementById("mainTitle");
+    const subtitle = document.getElementById("subtitle");
+    const phrase = document.getElementById("phrase");
+    const dailyNote = document.getElementById("dailyNote");
+    const signature = document.getElementById("signature");
+    const buttons = document.querySelectorAll(".controls button");
+    const petZone = document.getElementById("petZone");
+    const moon = document.getElementById("moon");
+    const moonLabel = document.getElementById("moonLabel");
+
+    let forcedMode = "auto";
+
+    const morningPhrases = [
+      "Buenos días, mi novia hermosa 💖✨ Espero que despiertes con mucha paz y con esa luz bonita que siempre llevas contigo. Mi linda enfermera, ojalá hoy te pasen cosas preciosas y sientas cuánto te quiere tu novio hermoso. 🥰💕",
+      "Buenos días, mi amor 🌞💗 Hoy el sol salió bonito para acompañarte y recordarte que eres increíble, grandiosa y tan especial para mí. Mi enfermera hermosa, deseo que la vida te abrace con puro amor y cositas lindas. ✨💖",
+      "Buenos días, mi niña preciosa 💕✨ Quiero que empieces el día sabiendo que eres una mujer maravillosa, una enfermera hermosa y mi novia consentida. Te quiero muchísimo, mi amor bonito. 🥰💖",
+      "Buenos días, corazoncito 💗☀️ Ojalá hoy tu día tenga sonrisas, tranquilidad y detallitos bonitos. Me encanta saber que tengo a la novia más hermosa y a una linda enfermera que admiro tanto. ✨🥰",
+      "Buenos días, mi vida 💖🌸 Que cada instante de hoy te recuerde lo valiosa y hermosa que eres. Mi linda enfermera, tu novio hermoso te piensa con muchísimo amor y desea que te suceda todo lo bonito de esta vida. ✨💕",
+      "Buenos días, mi novia hermosa 💖✨ eres increíble, grandiosa y mereces todo lo bonito de esta vida. 🥰💖",
+      "Buenos días, mi novia hermosa 💖✨ tu novio hermoso te quiere muchísimo y está pensando en ti. 💕✨",
+      "Buenos días, mi novia hermosa 💖✨ ojalá hoy te pasen cosas lindas que te hagan sonreír mucho. 💗🥰",
+      "Buenos días, mi novia hermosa 💖✨ eres una mujer maravillosa y una novia preciosa que ilumina mi vida. ✨💖",
+      "Buenos días, mi novia hermosa 💖✨ te deseo un día lleno de paz, amor, bendiciones y momentos bonitos. 🌸💕",
+      "Buenos días, mi novia hermosa 💖✨ admiro muchísimo tu corazón, tu ternura y todo lo hermosa que eres. 💖✨",
+      "Buenos días, mi novia hermosa 💖✨ que nada te robe tu luz y que la vida te trate con mucho cariño. 🥰💕",
+      "Buenos días, mi novia hermosa 💖✨ hoy también estoy muy orgulloso de ti, mi enfermera hermosa. 💗✨",
+      "Buenos días, mi novia hermosa 💖✨ quiero que tu mañana empiece con amorcito, calma y una sonrisa bonita. 💖🥰",
+      "Buenos días, mi novia hermosa 💖✨ que el día te regale motivos para sentirte feliz, amada y especial. ✨💕",
+      "Que bonito amaneció hoy, mi amor 🌞💗 eres increíble, grandiosa y mereces todo lo bonito de esta vida. 🥰💖",
+      "Que bonito amaneció hoy, mi amor 🌞💗 tu novio hermoso te quiere muchísimo y está pensando en ti. 💕✨",
+      "Que bonito amaneció hoy, mi amor 🌞💗 ojalá hoy te pasen cosas lindas que te hagan sonreír mucho. 💗🥰",
+      "Que bonito amaneció hoy, mi amor 🌞💗 eres una mujer maravillosa y una novia preciosa que ilumina mi vida. ✨💖",
+      "Que bonito amaneció hoy, mi amor 🌞💗 te deseo un día lleno de paz, amor, bendiciones y momentos bonitos. 🌸💕",
+      "Que bonito amaneció hoy, mi amor 🌞💗 admiro muchísimo tu corazón, tu ternura y todo lo hermosa que eres. 💖✨",
+      "Que bonito amaneció hoy, mi amor 🌞💗 que nada te robe tu luz y que la vida te trate con mucho cariño. 🥰💕",
+      "Que bonito amaneció hoy, mi amor 🌞💗 hoy también estoy muy orgulloso de ti, mi enfermera hermosa. 💗✨",
+      "Que bonito amaneció hoy, mi amor 🌞💗 quiero que tu mañana empiece con amorcito, calma y una sonrisa bonita. 💖🥰",
+      "Que bonito amaneció hoy, mi amor 🌞💗 que el día te regale motivos para sentirte feliz, amada y especial. ✨💕",
+      "Despierta suavecito, mi linda enfermera 💕✨ eres increíble, grandiosa y mereces todo lo bonito de esta vida. 🥰💖",
+      "Despierta suavecito, mi linda enfermera 💕✨ tu novio hermoso te quiere muchísimo y está pensando en ti. 💕✨",
+      "Despierta suavecito, mi linda enfermera 💕✨ ojalá hoy te pasen cosas lindas que te hagan sonreír mucho. 💗🥰",
+      "Despierta suavecito, mi linda enfermera 💕✨ eres una mujer maravillosa y una novia preciosa que ilumina mi vida. ✨💖",
+      "Despierta suavecito, mi linda enfermera 💕✨ te deseo un día lleno de paz, amor, bendiciones y momentos bonitos. 🌸💕",
+      "Despierta suavecito, mi linda enfermera 💕✨ admiro muchísimo tu corazón, tu ternura y todo lo hermosa que eres. 💖✨",
+      "Despierta suavecito, mi linda enfermera 💕✨ que nada te robe tu luz y que la vida te trate con mucho cariño. 🥰💕",
+      "Despierta suavecito, mi linda enfermera 💕✨ hoy también estoy muy orgulloso de ti, mi enfermera hermosa. 💗✨",
+      "Despierta suavecito, mi linda enfermera 💕✨ quiero que tu mañana empiece con amorcito, calma y una sonrisa bonita. 💖🥰",
+      "Despierta suavecito, mi linda enfermera 💕✨ que el día te regale motivos para sentirte feliz, amada y especial. ✨💕",
+      "Buenos días, mi niña preciosa 🌸💖 eres increíble, grandiosa y mereces todo lo bonito de esta vida. 🥰💖",
+      "Buenos días, mi niña preciosa 🌸💖 tu novio hermoso te quiere muchísimo y está pensando en ti. 💕✨",
+      "Buenos días, mi niña preciosa 🌸💖 ojalá hoy te pasen cosas lindas que te hagan sonreír mucho. 💗🥰",
+      "Buenos días, mi niña preciosa 🌸💖 eres una mujer maravillosa y una novia preciosa que ilumina mi vida. ✨💖",
+      "Buenos días, mi niña preciosa 🌸💖 te deseo un día lleno de paz, amor, bendiciones y momentos bonitos. 🌸💕",
+      "Buenos días, mi niña preciosa 🌸💖 admiro muchísimo tu corazón, tu ternura y todo lo hermosa que eres. 💖✨",
+      "Buenos días, mi niña preciosa 🌸💖 que nada te robe tu luz y que la vida te trate con mucho cariño. 🥰💕",
+      "Buenos días, mi niña preciosa 🌸💖 hoy también estoy muy orgulloso de ti, mi enfermera hermosa. 💗✨",
+      "Buenos días, mi niña preciosa 🌸💖 quiero que tu mañana empiece con amorcito, calma y una sonrisa bonita. 💖🥰",
+      "Buenos días, mi niña preciosa 🌸💖 que el día te regale motivos para sentirte feliz, amada y especial. ✨💕",
+      "Mi amor, hoy quiero que empieces el día sabiendo que 💗 eres increíble, grandiosa y mereces todo lo bonito de esta vida. 🥰💖",
+      "Mi amor, hoy quiero que empieces el día sabiendo que 💗 tu novio hermoso te quiere muchísimo y está pensando en ti. 💕✨",
+      "Mi amor, hoy quiero que empieces el día sabiendo que 💗 ojalá hoy te pasen cosas lindas que te hagan sonreír mucho. 💗🥰",
+      "Mi amor, hoy quiero que empieces el día sabiendo que 💗 eres una mujer maravillosa y una novia preciosa que ilumina mi vida. ✨💖",
+      "Mi amor, hoy quiero que empieces el día sabiendo que 💗 te deseo un día lleno de paz, amor, bendiciones y momentos bonitos. 🌸💕",
+      "Mi amor, hoy quiero que empieces el día sabiendo que 💗 admiro muchísimo tu corazón, tu ternura y todo lo hermosa que eres. 💖✨",
+      "Mi amor, hoy quiero que empieces el día sabiendo que 💗 que nada te robe tu luz y que la vida te trate con mucho cariño. 🥰💕",
+      "Mi amor, hoy quiero que empieces el día sabiendo que 💗 hoy también estoy muy orgulloso de ti, mi enfermera hermosa. 💗✨",
+      "Mi amor, hoy quiero que empieces el día sabiendo que 💗 quiero que tu mañana empiece con amorcito, calma y una sonrisa bonita. 💖🥰",
+      "Mi amor, hoy quiero que empieces el día sabiendo que 💗 que el día te regale motivos para sentirte feliz, amada y especial. ✨💕",
+      "Buenos días, corazoncito hermoso ☀️💕 eres increíble, grandiosa y mereces todo lo bonito de esta vida. 🥰💖",
+      "Buenos días, corazoncito hermoso ☀️💕 tu novio hermoso te quiere muchísimo y está pensando en ti. 💕✨",
+      "Buenos días, corazoncito hermoso ☀️💕 ojalá hoy te pasen cosas lindas que te hagan sonreír mucho. 💗🥰",
+      "Buenos días, corazoncito hermoso ☀️💕 eres una mujer maravillosa y una novia preciosa que ilumina mi vida. ✨💖",
+      "Buenos días, corazoncito hermoso ☀️💕 te deseo un día lleno de paz, amor, bendiciones y momentos bonitos. 🌸💕",
+      "Buenos días, corazoncito hermoso ☀️💕 admiro muchísimo tu corazón, tu ternura y todo lo hermosa que eres. 💖✨",
+      "Buenos días, corazoncito hermoso ☀️💕 que nada te robe tu luz y que la vida te trate con mucho cariño. 🥰💕",
+      "Buenos días, corazoncito hermoso ☀️💕 hoy también estoy muy orgulloso de ti, mi enfermera hermosa. 💗✨",
+      "Buenos días, corazoncito hermoso ☀️💕 quiero que tu mañana empiece con amorcito, calma y una sonrisa bonita. 💖🥰",
+      "Buenos días, corazoncito hermoso ☀️💕 que el día te regale motivos para sentirte feliz, amada y especial. ✨💕",
+      "Mi novia bonita, que esta mañana te abrace con calma 💖 eres increíble, grandiosa y mereces todo lo bonito de esta vida. 🥰💖",
+      "Mi novia bonita, que esta mañana te abrace con calma 💖 tu novio hermoso te quiere muchísimo y está pensando en ti. 💕✨",
+      "Mi novia bonita, que esta mañana te abrace con calma 💖 ojalá hoy te pasen cosas lindas que te hagan sonreír mucho. 💗🥰",
+      "Mi novia bonita, que esta mañana te abrace con calma 💖 eres una mujer maravillosa y una novia preciosa que ilumina mi vida. ✨💖",
+      "Mi novia bonita, que esta mañana te abrace con calma 💖 te deseo un día lleno de paz, amor, bendiciones y momentos bonitos. 🌸💕",
+      "Mi novia bonita, que esta mañana te abrace con calma 💖 admiro muchísimo tu corazón, tu ternura y todo lo hermosa que eres. 💖✨",
+      "Mi novia bonita, que esta mañana te abrace con calma 💖 que nada te robe tu luz y que la vida te trate con mucho cariño. 🥰💕",
+      "Mi novia bonita, que esta mañana te abrace con calma 💖 hoy también estoy muy orgulloso de ti, mi enfermera hermosa. 💗✨",
+      "Mi novia bonita, que esta mañana te abrace con calma 💖 quiero que tu mañana empiece con amorcito, calma y una sonrisa bonita. 💖🥰",
+      "Mi novia bonita, que esta mañana te abrace con calma 💖 que el día te regale motivos para sentirte feliz, amada y especial. ✨💕",
+      "Amorcito, el sol salió para recordarte que ✨ eres increíble, grandiosa y mereces todo lo bonito de esta vida. 🥰💖",
+      "Amorcito, el sol salió para recordarte que ✨ tu novio hermoso te quiere muchísimo y está pensando en ti. 💕✨",
+      "Amorcito, el sol salió para recordarte que ✨ ojalá hoy te pasen cosas lindas que te hagan sonreír mucho. 💗🥰",
+      "Amorcito, el sol salió para recordarte que ✨ eres una mujer maravillosa y una novia preciosa que ilumina mi vida. ✨💖",
+      "Amorcito, el sol salió para recordarte que ✨ te deseo un día lleno de paz, amor, bendiciones y momentos bonitos. 🌸💕",
+      "Amorcito, el sol salió para recordarte que ✨ admiro muchísimo tu corazón, tu ternura y todo lo hermosa que eres. 💖✨",
+      "Amorcito, el sol salió para recordarte que ✨ que nada te robe tu luz y que la vida te trate con mucho cariño. 🥰💕",
+      "Amorcito, el sol salió para recordarte que ✨ hoy también estoy muy orgulloso de ti, mi enfermera hermosa. 💗✨",
+      "Amorcito, el sol salió para recordarte que ✨ quiero que tu mañana empiece con amorcito, calma y una sonrisa bonita. 💖🥰",
+      "Amorcito, el sol salió para recordarte que ✨ que el día te regale motivos para sentirte feliz, amada y especial. ✨💕",
+      "Buenos días, mi vida preciosa 🌞💖 eres increíble, grandiosa y mereces todo lo bonito de esta vida. 🥰💖",
+      "Buenos días, mi vida preciosa 🌞💖 tu novio hermoso te quiere muchísimo y está pensando en ti. 💕✨",
+      "Buenos días, mi vida preciosa 🌞💖 ojalá hoy te pasen cosas lindas que te hagan sonreír mucho. 💗🥰",
+      "Buenos días, mi vida preciosa 🌞💖 eres una mujer maravillosa y una novia preciosa que ilumina mi vida. ✨💖",
+      "Buenos días, mi vida preciosa 🌞💖 te deseo un día lleno de paz, amor, bendiciones y momentos bonitos. 🌸💕",
+      "Buenos días, mi vida preciosa 🌞💖 admiro muchísimo tu corazón, tu ternura y todo lo hermosa que eres. 💖✨",
+      "Buenos días, mi vida preciosa 🌞💖 que nada te robe tu luz y que la vida te trate con mucho cariño. 🥰💕",
+      "Buenos días, mi vida preciosa 🌞💖 hoy también estoy muy orgulloso de ti, mi enfermera hermosa. 💗✨",
+      "Buenos días, mi vida preciosa 🌞💖 quiero que tu mañana empiece con amorcito, calma y una sonrisa bonita. 💖🥰",
+      "Buenos días, mi vida preciosa 🌞💖 que el día te regale motivos para sentirte feliz, amada y especial. ✨💕",
+      "Mi linda enfermera, antes de empezar tu día quiero decirte que 💕 eres increíble, grandiosa y mereces todo lo bonito de esta vida. 🥰💖",
+      "Mi linda enfermera, antes de empezar tu día quiero decirte que 💕 tu novio hermoso te quiere muchísimo y está pensando en ti. 💕✨",
+      "Mi linda enfermera, antes de empezar tu día quiero decirte que 💕 ojalá hoy te pasen cosas lindas que te hagan sonreír mucho. 💗🥰",
+      "Mi linda enfermera, antes de empezar tu día quiero decirte que 💕 eres una mujer maravillosa y una novia preciosa que ilumina mi vida. ✨💖",
+      "Mi linda enfermera, antes de empezar tu día quiero decirte que 💕 te deseo un día lleno de paz, amor, bendiciones y momentos bonitos. 🌸💕",
+      "Mi linda enfermera, antes de empezar tu día quiero decirte que 💕 admiro muchísimo tu corazón, tu ternura y todo lo hermosa que eres. 💖✨",
+      "Mi linda enfermera, antes de empezar tu día quiero decirte que 💕 que nada te robe tu luz y que la vida te trate con mucho cariño. 🥰💕",
+      "Mi linda enfermera, antes de empezar tu día quiero decirte que 💕 hoy también estoy muy orgulloso de ti, mi enfermera hermosa. 💗✨",
+      "Mi linda enfermera, antes de empezar tu día quiero decirte que 💕 quiero que tu mañana empiece con amorcito, calma y una sonrisa bonita. 💖🥰",
+      "Mi linda enfermera, antes de empezar tu día quiero decirte que 💕 que el día te regale motivos para sentirte feliz, amada y especial. ✨💕"
+    ];
+
+    const afternoonPhrases = [
+      "Buenas tardes, mi amorcito 🌅💖 Espero que esta tarde se vea tan bonita como tú. Mi novia hermosa, me encanta pensar en ti y en lo grandiosa que eres. Mi linda enfermera, te mando mucho amor y abracitos bonitos. 🥰✨",
+      "Mi vida, buenas tardes 💗✨ Ojalá estés teniendo una tarde tranquila y linda. Eres increíble, eres una enfermera hermosa, y tu novio hermoso te quiere muchísimo, muchísimo. 🥰💕",
+      "Buenas tardes, mi preciosa 🌇💖 Que este atardecer te regale calma, paz y una sonrisa suave. Mi novia hermosa, admiro mucho a la mujer tan linda y grandiosa que eres. ✨🥰",
+      "Mi amor, qué bonita tarde para recordarte cuánto te amo 💕🌤️ Mi linda enfermera, deseo que todo te salga bien y que la vida te siga consintiendo como mereces. Tu novio hermoso está pensando en ti. 💖✨",
+      "Buenas tardes, corazón 💗🌅 Respira bonito y recuerda que eres valiosa, fuerte y preciosa. Me haces muy feliz, mi novia hermosa, y siempre voy a desearte todo lo más lindo de esta vida. ✨🥰",
+      "Buenas tardes, mi amorcito 🌅💖 eres increíble, fuerte, hermosa y muy valiosa para mí. 🥰💖",
+      "Buenas tardes, mi amorcito 🌅💖 tu novio hermoso te piensa con muchísimo amor y ternura. 💕✨",
+      "Buenas tardes, mi amorcito 🌅💖 todo lo bonito de la vida encuentre la forma de llegar a ti. 🌸💗",
+      "Buenas tardes, mi amorcito 🌅💖 tu corazón descanse tantito y se llene de paz bonita. ✨💕",
+      "Buenas tardes, mi amorcito 🌅💖 recibas una sonrisa inesperada, un detalle lindo y mucho amorcito. 💖🥰",
+      "Buenas tardes, mi amorcito 🌅💖 eres mi novia hermosa y una enfermera maravillosa que admiro mucho. 💗✨",
+      "Buenas tardes, mi amorcito 🌅💖 la tarde te devuelva energía, calma y pensamientos bonitos. 🌅💕",
+      "Buenas tardes, mi amorcito 🌅💖 me haces muy feliz y me siento muy afortunado de amarte. 💖✨",
+      "Buenas tardes, mi amorcito 🌅💖 nada opaque tu luz ni esa ternura tan linda que tienes. 🥰💗",
+      "Buenas tardes, mi amorcito 🌅💖 te sientas amada, acompañada y consentida por mi corazón. 💕✨",
+      "Mi novia hermosa, que esta tarde te abrace bonito 💕 eres increíble, fuerte, hermosa y muy valiosa para mí. 🥰💖",
+      "Mi novia hermosa, que esta tarde te abrace bonito 💕 tu novio hermoso te piensa con muchísimo amor y ternura. 💕✨",
+      "Mi novia hermosa, que esta tarde te abrace bonito 💕 todo lo bonito de la vida encuentre la forma de llegar a ti. 🌸💗",
+      "Mi novia hermosa, que esta tarde te abrace bonito 💕 tu corazón descanse tantito y se llene de paz bonita. ✨💕",
+      "Mi novia hermosa, que esta tarde te abrace bonito 💕 recibas una sonrisa inesperada, un detalle lindo y mucho amorcito. 💖🥰",
+      "Mi novia hermosa, que esta tarde te abrace bonito 💕 eres mi novia hermosa y una enfermera maravillosa que admiro mucho. 💗✨",
+      "Mi novia hermosa, que esta tarde te abrace bonito 💕 la tarde te devuelva energía, calma y pensamientos bonitos. 🌅💕",
+      "Mi novia hermosa, que esta tarde te abrace bonito 💕 me haces muy feliz y me siento muy afortunado de amarte. 💖✨",
+      "Mi novia hermosa, que esta tarde te abrace bonito 💕 nada opaque tu luz ni esa ternura tan linda que tienes. 🥰💗",
+      "Mi novia hermosa, que esta tarde te abrace bonito 💕 te sientas amada, acompañada y consentida por mi corazón. 💕✨",
+      "Amor, en esta tarde quiero recordarte que ✨ eres increíble, fuerte, hermosa y muy valiosa para mí. 🥰💖",
+      "Amor, en esta tarde quiero recordarte que ✨ tu novio hermoso te piensa con muchísimo amor y ternura. 💕✨",
+      "Amor, en esta tarde quiero recordarte que ✨ todo lo bonito de la vida encuentre la forma de llegar a ti. 🌸💗",
+      "Amor, en esta tarde quiero recordarte que ✨ tu corazón descanse tantito y se llene de paz bonita. ✨💕",
+      "Amor, en esta tarde quiero recordarte que ✨ recibas una sonrisa inesperada, un detalle lindo y mucho amorcito. 💖🥰",
+      "Amor, en esta tarde quiero recordarte que ✨ eres mi novia hermosa y una enfermera maravillosa que admiro mucho. 💗✨",
+      "Amor, en esta tarde quiero recordarte que ✨ la tarde te devuelva energía, calma y pensamientos bonitos. 🌅💕",
+      "Amor, en esta tarde quiero recordarte que ✨ me haces muy feliz y me siento muy afortunado de amarte. 💖✨",
+      "Amor, en esta tarde quiero recordarte que ✨ nada opaque tu luz ni esa ternura tan linda que tienes. 🥰💗",
+      "Amor, en esta tarde quiero recordarte que ✨ te sientas amada, acompañada y consentida por mi corazón. 💕✨",
+      "Buenas tardes, mi linda enfermera 🌸💗 eres increíble, fuerte, hermosa y muy valiosa para mí. 🥰💖",
+      "Buenas tardes, mi linda enfermera 🌸💗 tu novio hermoso te piensa con muchísimo amor y ternura. 💕✨",
+      "Buenas tardes, mi linda enfermera 🌸💗 todo lo bonito de la vida encuentre la forma de llegar a ti. 🌸💗",
+      "Buenas tardes, mi linda enfermera 🌸💗 tu corazón descanse tantito y se llene de paz bonita. ✨💕",
+      "Buenas tardes, mi linda enfermera 🌸💗 recibas una sonrisa inesperada, un detalle lindo y mucho amorcito. 💖🥰",
+      "Buenas tardes, mi linda enfermera 🌸💗 eres mi novia hermosa y una enfermera maravillosa que admiro mucho. 💗✨",
+      "Buenas tardes, mi linda enfermera 🌸💗 la tarde te devuelva energía, calma y pensamientos bonitos. 🌅💕",
+      "Buenas tardes, mi linda enfermera 🌸💗 me haces muy feliz y me siento muy afortunado de amarte. 💖✨",
+      "Buenas tardes, mi linda enfermera 🌸💗 nada opaque tu luz ni esa ternura tan linda que tienes. 🥰💗",
+      "Buenas tardes, mi linda enfermera 🌸💗 te sientas amada, acompañada y consentida por mi corazón. 💕✨",
+      "Mi vida preciosa, ojalá esta tarde te esté tratando suavecito 💖 eres increíble, fuerte, hermosa y muy valiosa para mí. 🥰💖",
+      "Mi vida preciosa, ojalá esta tarde te esté tratando suavecito 💖 tu novio hermoso te piensa con muchísimo amor y ternura. 💕✨",
+      "Mi vida preciosa, ojalá esta tarde te esté tratando suavecito 💖 todo lo bonito de la vida encuentre la forma de llegar a ti. 🌸💗",
+      "Mi vida preciosa, ojalá esta tarde te esté tratando suavecito 💖 tu corazón descanse tantito y se llene de paz bonita. ✨💕",
+      "Mi vida preciosa, ojalá esta tarde te esté tratando suavecito 💖 recibas una sonrisa inesperada, un detalle lindo y mucho amorcito. 💖🥰",
+      "Mi vida preciosa, ojalá esta tarde te esté tratando suavecito 💖 eres mi novia hermosa y una enfermera maravillosa que admiro mucho. 💗✨",
+      "Mi vida preciosa, ojalá esta tarde te esté tratando suavecito 💖 la tarde te devuelva energía, calma y pensamientos bonitos. 🌅💕",
+      "Mi vida preciosa, ojalá esta tarde te esté tratando suavecito 💖 me haces muy feliz y me siento muy afortunado de amarte. 💖✨",
+      "Mi vida preciosa, ojalá esta tarde te esté tratando suavecito 💖 nada opaque tu luz ni esa ternura tan linda que tienes. 🥰💗",
+      "Mi vida preciosa, ojalá esta tarde te esté tratando suavecito 💖 te sientas amada, acompañada y consentida por mi corazón. 💕✨",
+      "Corazoncito, que el atardecer te regale calma 🌅✨ eres increíble, fuerte, hermosa y muy valiosa para mí. 🥰💖",
+      "Corazoncito, que el atardecer te regale calma 🌅✨ tu novio hermoso te piensa con muchísimo amor y ternura. 💕✨",
+      "Corazoncito, que el atardecer te regale calma 🌅✨ todo lo bonito de la vida encuentre la forma de llegar a ti. 🌸💗",
+      "Corazoncito, que el atardecer te regale calma 🌅✨ tu corazón descanse tantito y se llene de paz bonita. ✨💕",
+      "Corazoncito, que el atardecer te regale calma 🌅✨ recibas una sonrisa inesperada, un detalle lindo y mucho amorcito. 💖🥰",
+      "Corazoncito, que el atardecer te regale calma 🌅✨ eres mi novia hermosa y una enfermera maravillosa que admiro mucho. 💗✨",
+      "Corazoncito, que el atardecer te regale calma 🌅✨ la tarde te devuelva energía, calma y pensamientos bonitos. 🌅💕",
+      "Corazoncito, que el atardecer te regale calma 🌅✨ me haces muy feliz y me siento muy afortunado de amarte. 💖✨",
+      "Corazoncito, que el atardecer te regale calma 🌅✨ nada opaque tu luz ni esa ternura tan linda que tienes. 🥰💗",
+      "Corazoncito, que el atardecer te regale calma 🌅✨ te sientas amada, acompañada y consentida por mi corazón. 💕✨",
+      "Mi amor, aunque el día haya sido largo, recuerda que 💕 eres increíble, fuerte, hermosa y muy valiosa para mí. 🥰💖",
+      "Mi amor, aunque el día haya sido largo, recuerda que 💕 tu novio hermoso te piensa con muchísimo amor y ternura. 💕✨",
+      "Mi amor, aunque el día haya sido largo, recuerda que 💕 todo lo bonito de la vida encuentre la forma de llegar a ti. 🌸💗",
+      "Mi amor, aunque el día haya sido largo, recuerda que 💕 tu corazón descanse tantito y se llene de paz bonita. ✨💕",
+      "Mi amor, aunque el día haya sido largo, recuerda que 💕 recibas una sonrisa inesperada, un detalle lindo y mucho amorcito. 💖🥰",
+      "Mi amor, aunque el día haya sido largo, recuerda que 💕 eres mi novia hermosa y una enfermera maravillosa que admiro mucho. 💗✨",
+      "Mi amor, aunque el día haya sido largo, recuerda que 💕 la tarde te devuelva energía, calma y pensamientos bonitos. 🌅💕",
+      "Mi amor, aunque el día haya sido largo, recuerda que 💕 me haces muy feliz y me siento muy afortunado de amarte. 💖✨",
+      "Mi amor, aunque el día haya sido largo, recuerda que 💕 nada opaque tu luz ni esa ternura tan linda que tienes. 🥰💗",
+      "Mi amor, aunque el día haya sido largo, recuerda que 💕 te sientas amada, acompañada y consentida por mi corazón. 💕✨",
+      "Buenas tardes, mi niña bonita 💗 eres increíble, fuerte, hermosa y muy valiosa para mí. 🥰💖",
+      "Buenas tardes, mi niña bonita 💗 tu novio hermoso te piensa con muchísimo amor y ternura. 💕✨",
+      "Buenas tardes, mi niña bonita 💗 todo lo bonito de la vida encuentre la forma de llegar a ti. 🌸💗",
+      "Buenas tardes, mi niña bonita 💗 tu corazón descanse tantito y se llene de paz bonita. ✨💕",
+      "Buenas tardes, mi niña bonita 💗 recibas una sonrisa inesperada, un detalle lindo y mucho amorcito. 💖🥰",
+      "Buenas tardes, mi niña bonita 💗 eres mi novia hermosa y una enfermera maravillosa que admiro mucho. 💗✨",
+      "Buenas tardes, mi niña bonita 💗 la tarde te devuelva energía, calma y pensamientos bonitos. 🌅💕",
+      "Buenas tardes, mi niña bonita 💗 me haces muy feliz y me siento muy afortunado de amarte. 💖✨",
+      "Buenas tardes, mi niña bonita 💗 nada opaque tu luz ni esa ternura tan linda que tienes. 🥰💗",
+      "Buenas tardes, mi niña bonita 💗 te sientas amada, acompañada y consentida por mi corazón. 💕✨",
+      "Mi preciosa enfermera, esta tarde deseo que ✨ eres increíble, fuerte, hermosa y muy valiosa para mí. 🥰💖",
+      "Mi preciosa enfermera, esta tarde deseo que ✨ tu novio hermoso te piensa con muchísimo amor y ternura. 💕✨",
+      "Mi preciosa enfermera, esta tarde deseo que ✨ todo lo bonito de la vida encuentre la forma de llegar a ti. 🌸💗",
+      "Mi preciosa enfermera, esta tarde deseo que ✨ tu corazón descanse tantito y se llene de paz bonita. ✨💕",
+      "Mi preciosa enfermera, esta tarde deseo que ✨ recibas una sonrisa inesperada, un detalle lindo y mucho amorcito. 💖🥰",
+      "Mi preciosa enfermera, esta tarde deseo que ✨ eres mi novia hermosa y una enfermera maravillosa que admiro mucho. 💗✨",
+      "Mi preciosa enfermera, esta tarde deseo que ✨ la tarde te devuelva energía, calma y pensamientos bonitos. 🌅💕",
+      "Mi preciosa enfermera, esta tarde deseo que ✨ me haces muy feliz y me siento muy afortunado de amarte. 💖✨",
+      "Mi preciosa enfermera, esta tarde deseo que ✨ nada opaque tu luz ni esa ternura tan linda que tienes. 🥰💗",
+      "Mi preciosa enfermera, esta tarde deseo que ✨ te sientas amada, acompañada y consentida por mi corazón. 💕✨",
+      "Amorcito, te mando un abrazo enorme para esta tarde 💖 eres increíble, fuerte, hermosa y muy valiosa para mí. 🥰💖",
+      "Amorcito, te mando un abrazo enorme para esta tarde 💖 tu novio hermoso te piensa con muchísimo amor y ternura. 💕✨",
+      "Amorcito, te mando un abrazo enorme para esta tarde 💖 todo lo bonito de la vida encuentre la forma de llegar a ti. 🌸💗",
+      "Amorcito, te mando un abrazo enorme para esta tarde 💖 tu corazón descanse tantito y se llene de paz bonita. ✨💕",
+      "Amorcito, te mando un abrazo enorme para esta tarde 💖 recibas una sonrisa inesperada, un detalle lindo y mucho amorcito. 💖🥰",
+      "Amorcito, te mando un abrazo enorme para esta tarde 💖 eres mi novia hermosa y una enfermera maravillosa que admiro mucho. 💗✨",
+      "Amorcito, te mando un abrazo enorme para esta tarde 💖 la tarde te devuelva energía, calma y pensamientos bonitos. 🌅💕",
+      "Amorcito, te mando un abrazo enorme para esta tarde 💖 me haces muy feliz y me siento muy afortunado de amarte. 💖✨",
+      "Amorcito, te mando un abrazo enorme para esta tarde 💖 nada opaque tu luz ni esa ternura tan linda que tienes. 🥰💗",
+      "Amorcito, te mando un abrazo enorme para esta tarde 💖 te sientas amada, acompañada y consentida por mi corazón. 💕✨"
+    ];
+
+    const nightPhrases = [
+      "Buenas noches, mi novia hermosa 🌙💖 Que la luna te cuide, que las estrellas iluminen tus sueños y que descanses bonito. Mi linda enfermera, gracias por ser tan increíble. Tu novio hermoso te ama muchísimo. ✨🥰",
+      "Buenas noches, mi amor 💗🌟 Hoy también fuiste maravillosa, y quiero que te duermas sabiendo lo valiosa, hermosa y grandiosa que eres. Mi enfermera preciosa, sueña bonito. 🥰💕",
+      "Mi vida, buenas noches 🌙✨ Ojalá esta noche te abrace con paz, calma y sueño bonito. Me encanta que seas mi novia hermosa y esa linda enfermera que admiro con todo mi corazón. 💖✨",
+      "Buenas noches, corazoncito 💫💗 Descansa suavecito y deja que las estrellas te acompañen. Mi linda enfermera, mereces noches tranquilas y mañanas llenas de cosas lindas. Te quiero muchísimo. 🥰💕",
+      "Buenas noches, mi niña bonita 🌙💖 Que ningún pensamiento pesado se quede contigo y que tu corazón descanse. Tu novio hermoso te manda besitos, abracitos y muchísimo amor. ✨🥰",
+      "Buenas noches, mi novia hermosa 🌙💖 eres increíble, grandiosa y profundamente amada por tu novio hermoso. 🥰💖",
+      "Buenas noches, mi novia hermosa 🌙💖 mereces descansar con paz, calma y un corazón muy tranquilito. 🌙💕",
+      "Buenas noches, mi novia hermosa 🌙💖 la luna y las estrellas te recuerden lo hermosa y especial que eres. ✨💗",
+      "Buenas noches, mi novia hermosa 🌙💖 hoy también fuiste maravillosa y estoy muy orgulloso de ti. 💖🥰",
+      "Buenas noches, mi novia hermosa 🌙💖 duermas bonito y sueñes con cosas tiernas, dulces y felices. 🌟💕",
+      "Buenas noches, mi novia hermosa 🌙💖 mi amor por ti te acompañe incluso mientras descansas. 💗✨",
+      "Buenas noches, mi novia hermosa 🌙💖 mañana la vida te regale nuevas razones para sonreír. 🌸💖",
+      "Buenas noches, mi novia hermosa 🌙💖 tu corazón suelte lo pesado y se quede solo con amor bonito. 🥰💕",
+      "Buenas noches, mi novia hermosa 🌙💖 te amo muchísimo y deseo que tengas una noche preciosa. 🌙💖",
+      "Buenas noches, mi novia hermosa 🌙💖 descanses sabiendo que eres mi novia hermosa y mi felicidad. ✨💗",
+      "Descansa bonito, mi amor precioso 💕✨ eres increíble, grandiosa y profundamente amada por tu novio hermoso. 🥰💖",
+      "Descansa bonito, mi amor precioso 💕✨ mereces descansar con paz, calma y un corazón muy tranquilito. 🌙💕",
+      "Descansa bonito, mi amor precioso 💕✨ la luna y las estrellas te recuerden lo hermosa y especial que eres. ✨💗",
+      "Descansa bonito, mi amor precioso 💕✨ hoy también fuiste maravillosa y estoy muy orgulloso de ti. 💖🥰",
+      "Descansa bonito, mi amor precioso 💕✨ duermas bonito y sueñes con cosas tiernas, dulces y felices. 🌟💕",
+      "Descansa bonito, mi amor precioso 💕✨ mi amor por ti te acompañe incluso mientras descansas. 💗✨",
+      "Descansa bonito, mi amor precioso 💕✨ mañana la vida te regale nuevas razones para sonreír. 🌸💖",
+      "Descansa bonito, mi amor precioso 💕✨ tu corazón suelte lo pesado y se quede solo con amor bonito. 🥰💕",
+      "Descansa bonito, mi amor precioso 💕✨ te amo muchísimo y deseo que tengas una noche preciosa. 🌙💖",
+      "Descansa bonito, mi amor precioso 💕✨ descanses sabiendo que eres mi novia hermosa y mi felicidad. ✨💗",
+      "Mi linda enfermera, que esta noche te abrace suavecito 🌙 eres increíble, grandiosa y profundamente amada por tu novio hermoso. 🥰💖",
+      "Mi linda enfermera, que esta noche te abrace suavecito 🌙 mereces descansar con paz, calma y un corazón muy tranquilito. 🌙💕",
+      "Mi linda enfermera, que esta noche te abrace suavecito 🌙 la luna y las estrellas te recuerden lo hermosa y especial que eres. ✨💗",
+      "Mi linda enfermera, que esta noche te abrace suavecito 🌙 hoy también fuiste maravillosa y estoy muy orgulloso de ti. 💖🥰",
+      "Mi linda enfermera, que esta noche te abrace suavecito 🌙 duermas bonito y sueñes con cosas tiernas, dulces y felices. 🌟💕",
+      "Mi linda enfermera, que esta noche te abrace suavecito 🌙 mi amor por ti te acompañe incluso mientras descansas. 💗✨",
+      "Mi linda enfermera, que esta noche te abrace suavecito 🌙 mañana la vida te regale nuevas razones para sonreír. 🌸💖",
+      "Mi linda enfermera, que esta noche te abrace suavecito 🌙 tu corazón suelte lo pesado y se quede solo con amor bonito. 🥰💕",
+      "Mi linda enfermera, que esta noche te abrace suavecito 🌙 te amo muchísimo y deseo que tengas una noche preciosa. 🌙💖",
+      "Mi linda enfermera, que esta noche te abrace suavecito 🌙 descanses sabiendo que eres mi novia hermosa y mi felicidad. ✨💗",
+      "Buenas noches, mi niña bonita 💗 eres increíble, grandiosa y profundamente amada por tu novio hermoso. 🥰💖",
+      "Buenas noches, mi niña bonita 💗 mereces descansar con paz, calma y un corazón muy tranquilito. 🌙💕",
+      "Buenas noches, mi niña bonita 💗 la luna y las estrellas te recuerden lo hermosa y especial que eres. ✨💗",
+      "Buenas noches, mi niña bonita 💗 hoy también fuiste maravillosa y estoy muy orgulloso de ti. 💖🥰",
+      "Buenas noches, mi niña bonita 💗 duermas bonito y sueñes con cosas tiernas, dulces y felices. 🌟💕",
+      "Buenas noches, mi niña bonita 💗 mi amor por ti te acompañe incluso mientras descansas. 💗✨",
+      "Buenas noches, mi niña bonita 💗 mañana la vida te regale nuevas razones para sonreír. 🌸💖",
+      "Buenas noches, mi niña bonita 💗 tu corazón suelte lo pesado y se quede solo con amor bonito. 🥰💕",
+      "Buenas noches, mi niña bonita 💗 te amo muchísimo y deseo que tengas una noche preciosa. 🌙💖",
+      "Buenas noches, mi niña bonita 💗 descanses sabiendo que eres mi novia hermosa y mi felicidad. ✨💗",
+      "Amor, antes de dormir quiero recordarte que ✨ eres increíble, grandiosa y profundamente amada por tu novio hermoso. 🥰💖",
+      "Amor, antes de dormir quiero recordarte que ✨ mereces descansar con paz, calma y un corazón muy tranquilito. 🌙💕",
+      "Amor, antes de dormir quiero recordarte que ✨ la luna y las estrellas te recuerden lo hermosa y especial que eres. ✨💗",
+      "Amor, antes de dormir quiero recordarte que ✨ hoy también fuiste maravillosa y estoy muy orgulloso de ti. 💖🥰",
+      "Amor, antes de dormir quiero recordarte que ✨ duermas bonito y sueñes con cosas tiernas, dulces y felices. 🌟💕",
+      "Amor, antes de dormir quiero recordarte que ✨ mi amor por ti te acompañe incluso mientras descansas. 💗✨",
+      "Amor, antes de dormir quiero recordarte que ✨ mañana la vida te regale nuevas razones para sonreír. 🌸💖",
+      "Amor, antes de dormir quiero recordarte que ✨ tu corazón suelte lo pesado y se quede solo con amor bonito. 🥰💕",
+      "Amor, antes de dormir quiero recordarte que ✨ te amo muchísimo y deseo que tengas una noche preciosa. 🌙💖",
+      "Amor, antes de dormir quiero recordarte que ✨ descanses sabiendo que eres mi novia hermosa y mi felicidad. ✨💗",
+      "Mi vida preciosa, que la luna cuide tus sueños 🌙💖 eres increíble, grandiosa y profundamente amada por tu novio hermoso. 🥰💖",
+      "Mi vida preciosa, que la luna cuide tus sueños 🌙💖 mereces descansar con paz, calma y un corazón muy tranquilito. 🌙💕",
+      "Mi vida preciosa, que la luna cuide tus sueños 🌙💖 la luna y las estrellas te recuerden lo hermosa y especial que eres. ✨💗",
+      "Mi vida preciosa, que la luna cuide tus sueños 🌙💖 hoy también fuiste maravillosa y estoy muy orgulloso de ti. 💖🥰",
+      "Mi vida preciosa, que la luna cuide tus sueños 🌙💖 duermas bonito y sueñes con cosas tiernas, dulces y felices. 🌟💕",
+      "Mi vida preciosa, que la luna cuide tus sueños 🌙💖 mi amor por ti te acompañe incluso mientras descansas. 💗✨",
+      "Mi vida preciosa, que la luna cuide tus sueños 🌙💖 mañana la vida te regale nuevas razones para sonreír. 🌸💖",
+      "Mi vida preciosa, que la luna cuide tus sueños 🌙💖 tu corazón suelte lo pesado y se quede solo con amor bonito. 🥰💕",
+      "Mi vida preciosa, que la luna cuide tus sueños 🌙💖 te amo muchísimo y deseo que tengas una noche preciosa. 🌙💖",
+      "Mi vida preciosa, que la luna cuide tus sueños 🌙💖 descanses sabiendo que eres mi novia hermosa y mi felicidad. ✨💗",
+      "Corazoncito, cierra tus ojitos sabiendo que 💕 eres increíble, grandiosa y profundamente amada por tu novio hermoso. 🥰💖",
+      "Corazoncito, cierra tus ojitos sabiendo que 💕 mereces descansar con paz, calma y un corazón muy tranquilito. 🌙💕",
+      "Corazoncito, cierra tus ojitos sabiendo que 💕 la luna y las estrellas te recuerden lo hermosa y especial que eres. ✨💗",
+      "Corazoncito, cierra tus ojitos sabiendo que 💕 hoy también fuiste maravillosa y estoy muy orgulloso de ti. 💖🥰",
+      "Corazoncito, cierra tus ojitos sabiendo que 💕 duermas bonito y sueñes con cosas tiernas, dulces y felices. 🌟💕",
+      "Corazoncito, cierra tus ojitos sabiendo que 💕 mi amor por ti te acompañe incluso mientras descansas. 💗✨",
+      "Corazoncito, cierra tus ojitos sabiendo que 💕 mañana la vida te regale nuevas razones para sonreír. 🌸💖",
+      "Corazoncito, cierra tus ojitos sabiendo que 💕 tu corazón suelte lo pesado y se quede solo con amor bonito. 🥰💕",
+      "Corazoncito, cierra tus ojitos sabiendo que 💕 te amo muchísimo y deseo que tengas una noche preciosa. 🌙💖",
+      "Corazoncito, cierra tus ojitos sabiendo que 💕 descanses sabiendo que eres mi novia hermosa y mi felicidad. ✨💗",
+      "Buenas noches, mi amorcito hermoso 🌟💗 eres increíble, grandiosa y profundamente amada por tu novio hermoso. 🥰💖",
+      "Buenas noches, mi amorcito hermoso 🌟💗 mereces descansar con paz, calma y un corazón muy tranquilito. 🌙💕",
+      "Buenas noches, mi amorcito hermoso 🌟💗 la luna y las estrellas te recuerden lo hermosa y especial que eres. ✨💗",
+      "Buenas noches, mi amorcito hermoso 🌟💗 hoy también fuiste maravillosa y estoy muy orgulloso de ti. 💖🥰",
+      "Buenas noches, mi amorcito hermoso 🌟💗 duermas bonito y sueñes con cosas tiernas, dulces y felices. 🌟💕",
+      "Buenas noches, mi amorcito hermoso 🌟💗 mi amor por ti te acompañe incluso mientras descansas. 💗✨",
+      "Buenas noches, mi amorcito hermoso 🌟💗 mañana la vida te regale nuevas razones para sonreír. 🌸💖",
+      "Buenas noches, mi amorcito hermoso 🌟💗 tu corazón suelte lo pesado y se quede solo con amor bonito. 🥰💕",
+      "Buenas noches, mi amorcito hermoso 🌟💗 te amo muchísimo y deseo que tengas una noche preciosa. 🌙💖",
+      "Buenas noches, mi amorcito hermoso 🌟💗 descanses sabiendo que eres mi novia hermosa y mi felicidad. ✨💗",
+      "Mi novia preciosa, que las estrellas te acompañen esta noche ✨ eres increíble, grandiosa y profundamente amada por tu novio hermoso. 🥰💖",
+      "Mi novia preciosa, que las estrellas te acompañen esta noche ✨ mereces descansar con paz, calma y un corazón muy tranquilito. 🌙💕",
+      "Mi novia preciosa, que las estrellas te acompañen esta noche ✨ la luna y las estrellas te recuerden lo hermosa y especial que eres. ✨💗",
+      "Mi novia preciosa, que las estrellas te acompañen esta noche ✨ hoy también fuiste maravillosa y estoy muy orgulloso de ti. 💖🥰",
+      "Mi novia preciosa, que las estrellas te acompañen esta noche ✨ duermas bonito y sueñes con cosas tiernas, dulces y felices. 🌟💕",
+      "Mi novia preciosa, que las estrellas te acompañen esta noche ✨ mi amor por ti te acompañe incluso mientras descansas. 💗✨",
+      "Mi novia preciosa, que las estrellas te acompañen esta noche ✨ mañana la vida te regale nuevas razones para sonreír. 🌸💖",
+      "Mi novia preciosa, que las estrellas te acompañen esta noche ✨ tu corazón suelte lo pesado y se quede solo con amor bonito. 🥰💕",
+      "Mi novia preciosa, que las estrellas te acompañen esta noche ✨ te amo muchísimo y deseo que tengas una noche preciosa. 🌙💖",
+      "Mi novia preciosa, que las estrellas te acompañen esta noche ✨ descanses sabiendo que eres mi novia hermosa y mi felicidad. ✨💗",
+      "Amorcito, te mando besitos y abrazos hasta tus sueños 💖 eres increíble, grandiosa y profundamente amada por tu novio hermoso. 🥰💖",
+      "Amorcito, te mando besitos y abrazos hasta tus sueños 💖 mereces descansar con paz, calma y un corazón muy tranquilito. 🌙💕",
+      "Amorcito, te mando besitos y abrazos hasta tus sueños 💖 la luna y las estrellas te recuerden lo hermosa y especial que eres. ✨💗",
+      "Amorcito, te mando besitos y abrazos hasta tus sueños 💖 hoy también fuiste maravillosa y estoy muy orgulloso de ti. 💖🥰",
+      "Amorcito, te mando besitos y abrazos hasta tus sueños 💖 duermas bonito y sueñes con cosas tiernas, dulces y felices. 🌟💕",
+      "Amorcito, te mando besitos y abrazos hasta tus sueños 💖 mi amor por ti te acompañe incluso mientras descansas. 💗✨",
+      "Amorcito, te mando besitos y abrazos hasta tus sueños 💖 mañana la vida te regale nuevas razones para sonreír. 🌸💖",
+      "Amorcito, te mando besitos y abrazos hasta tus sueños 💖 tu corazón suelte lo pesado y se quede solo con amor bonito. 🥰💕",
+      "Amorcito, te mando besitos y abrazos hasta tus sueños 💖 te amo muchísimo y deseo que tengas una noche preciosa. 🌙💖",
+      "Amorcito, te mando besitos y abrazos hasta tus sueños 💖 descanses sabiendo que eres mi novia hermosa y mi felicidad. ✨💗"
+    ];
+
+    // EXTRA_100_DAY_PERIOD_PHRASES_ADDED_V1
+
+    const dailyWishes = [
+      "Hoy deseo que te pasen cosas bonitas, de esas que alegran el corazón sin avisar. 💖✨",
+      "Ojalá la vida te llene de sonrisas sinceras, momentos tiernos y mucha paz. 🥰💕",
+      "Que nunca te falten razones para sentirte orgullosa de ti, porque eres preciosa por dentro y por fuera. ✨💗",
+      "Que todo lo bueno te encuentre y que siempre recuerdes lo especial que eres para mí. 🥰💖",
+      "Deseo que tu corazón esté tranquilito y que la vida te abrace con mucho amor. 🌸✨",
+      "Que hoy, mañana y siempre te alcance todo lo bonito: calma, amor, bendiciones y sonrisas. 💕🥰",
+      "Mi deseo favorito siempre será el mismo: que seas muy feliz, mi amor. 💖✨"
+    ];
+
+    const periodInfo = {
+      morning: {
+        badge: "🌞 Buenos días, mi enfermera hermosa 💖",
+        title: "Buenos días, mi novia preciosa",
+        subtitle: "El sol salió con colores pastel para recordarte que eres increíble, grandiosa y que mereces todo lo bonito de esta vida. 💖✨",
+        signature: "💌 Te quiere muchísimo tu novio hermoso 💗",
+        phrases: morningPhrases
+      },
+      afternoon: {
+        badge: "🌅 Buenas tardes, amorcito 💖",
+        title: "Buenas tardes, mi linda enfermera",
+        subtitle: "El atardecer se pinta cálido y romántico para acompañarte, consentirte un poquito y recordarte lo valiosa y hermosa que eres. ✨💕",
+        signature: "💗 Tu novio hermoso está pensando en ti ✨",
+        phrases: afternoonPhrases
+      },
+      night: {
+        badge: "🌙 Buenas noches, mi novia hermosa 💖",
+        title: "Buenas noches, mi amor",
+        subtitle: "La luna, las estrellas y los cometas iluminan esta noche para desearte descanso, paz y sueños muy bonitos. ✨🌟",
+        signature: "💤 Descansa, mi vida; te amo muchísimo 💖",
+        phrases: nightPhrases
+      }
+    };
+
+    const specialOccasionContent = {
+      birthday: {
+        morning: {
+          badge: "🎂🌞 Buenos días de cumpleaños, mi amor 💖",
+          title: "Feliz cumpleaños, mi novia preciosa",
+          subtitle: "Hoy es un día muy especial, porque nació la niña hermosa que ilumina mi vida. Mi linda enfermera, deseo que este cumpleaños te llene de amor, paz, abrazos y momentos inolvidables. 💖✨",
+          signature: "🎁 Tu novio hermoso te celebra con todo su amor 💗",
+          phrases: [
+            "Buenos días, mi amor hermoso 🎂💖 Hoy es tu cumpleaños y quiero que despiertes sintiéndote muy amada, muy celebrada y muy apapachada. Mi novia preciosa, mi linda enfermera, deseo que este nuevo año de vida te regale pura felicidad, mucha salud y muchísimas bendiciones. 🥰✨",
+            "Feliz cumpleaños, mi niña bonita 🌞🎉 Desde la mañana quiero recordarte que eres una mujer increíble, grandiosa y maravillosa. Me hace muy feliz poder celebrar la existencia de mi novia hermosa y desearte todo lo más lindo de esta vida. 💕🥰",
+            "Buenos días, cumpleañera preciosa 🎂🌸 Hoy el sol salió solo para festejarte tantito, mi amor. Ojalá este día te abrace con sonrisas, sorpresas bonitas y mucho cariño, porque mereces un cumpleaños tan hermoso como tú. 💖✨"
+          ],
+          notes: [
+            "Hoy mi deseo más grande es que te sientas muy feliz, muy amada y muy especial en tu cumpleaños. 🎂💖",
+            "Que este cumpleaños te regale recuerdos bonitos, abrazos sinceros y un corazón llenito de alegría. 🥰✨",
+            "Deseo que hoy la vida te consienta muchísimo, porque te mereces todo lo hermoso de este mundo. 💕🎉"
+          ]
+        },
+        afternoon: {
+          badge: "🎉🌅 Feliz cumpleaños, amorcito 💖",
+          title: "Feliz cumpleaños, mi linda enfermera",
+          subtitle: "Esta tarde de cumpleaños quiero seguir celebrándote y recordarte que eres una mujer preciosa, valiosa e increíble. Mi amor, ojalá todo hoy se pinte de alegría para ti. ✨💕",
+          signature: "🎂 Tu novio hermoso sigue celebrándote con mucho amor 💗",
+          phrases: [
+            "Buenas tardes, mi cumpleañera hermosa 🌅🎂 Espero que estés pasando un cumpleaños precioso, lleno de amor, detalles lindos y sonrisas sinceras. Mi novia hermosa, me siento muy feliz de poder celebrarte y desearte un año de vida bellísimo. 💖🥰",
+            "Mi amor, feliz cumpleaños 💕🎉 En esta tarde quiero abrazarte con palabras y decirte cuánto admiro a la mujer tan grandiosa que eres. Mi linda enfermera, mereces una vida llena de paz, alegría y sueños cumplidos. ✨💖",
+            "Buenas tardes, mi princesa de cumpleaños 🌇💗 Hoy el atardecer también quiere festejarte. Ojalá tu corazón esté muy contentito y sientas cuánto te ama tu novio hermoso y cuánto deseo que te suceda todo lo bonito de esta vida. 🎂🥰"
+          ],
+          notes: [
+            "Que esta tarde de cumpleaños siga llenándote de sonrisas, abrazos y momentos inolvidables. 🎉💖",
+            "Deseo que cada instante de hoy te haga sentir lo especial, valiosa y hermosa que eres. 🥰✨",
+            "Feliz cumpleaños, mi amor; ojalá la vida te regale puro amor y muchísimas bendiciones. 💕🎂"
+          ]
+        },
+        night: {
+          badge: "🌙🎂 Buenas noches de cumpleaños, mi amor 💖",
+          title: "Feliz cumpleaños, mi novia hermosa",
+          subtitle: "Esta noche de cumpleaños, la luna y las estrellas quieren acompañarte para cerrar un día precioso y recordarte lo amada, valiosa y maravillosa que eres. ✨🌟",
+          signature: "🎁 Buenas noches, mi vida; feliz cumpleaños y te amo muchísimo 💖",
+          phrases: [
+            "Buenas noches, mi amor hermoso 🌙🎂 Espero que hayas tenido un cumpleaños precioso, lleno de cariño y momentos bonitos. Mi novia hermosa, gracias por existir y por hacer mi vida mucho más linda con tu presencia. 💖🥰",
+            "Feliz cumpleaños, mi niña bonita 💫💗 Que esta noche abrace tu corazoncito con paz, amor y mucha felicidad. Mi linda enfermera, deseo que este nuevo año de vida esté lleno de bendiciones, salud y sueños cumplidos. 🎂✨",
+            "Buenas noches, cumpleañera preciosa 🌙💕 Hoy fue tu día especial, pero para mí siempre eres un regalo hermoso. Ojalá descanses muy bonito y te duermas sabiendo que eres increíble y profundamente amada por tu novio hermoso. 🥰🎉"
+          ],
+          notes: [
+            "Que cierres este cumpleaños con el corazón llenito de amor, paz y recuerdos preciosos. 🎂💖",
+            "Deseo que esta nueva vuelta al sol te regale mucha salud, mucha alegría y amorcito del bonito. ✨🥰",
+            "Feliz cumpleaños, mi amor; que esta noche te arrulle con calma y felicidad. 🌙💕"
+          ]
+        }
+      },
+      anniversary: {
+        morning: {
+          badge: "💞🌞 Buenos días de aniversario, mi amor 💖",
+          title: "Feliz aniversario, mi novia preciosa",
+          subtitle: "Hoy celebramos nuestro aniversario de novios, y desde la mañana quiero recordarte lo feliz que me hace tenerte en mi vida. Mi linda enfermera, gracias por ser mi amor bonito. 💖✨",
+          signature: "💌 Tu novio hermoso celebra nuestro amor contigo 💗",
+          phrases: [
+            "Buenos días, mi amor 💞🌞 Hoy es nuestro aniversario de novios, y quiero empezar el día recordándote cuánto te amo. Mi novia hermosa, gracias por tu amor, tu ternura y por hacerme tan feliz cada día. 🥰💖",
+            "Feliz aniversario, mi vida 💕✨ Hoy celebro con muchísimo amor el bonito regalo de tenerte como mi novia. Mi linda enfermera, eres una mujer grandiosa, preciosa e increíble, y me siento muy afortunado de amarte. 💗🥰",
+            "Buenos días, mi niña preciosa 💖🌸 En este aniversario quiero abrazarte con palabras y decirte que lo nuestro es de las cosas más bonitas que me han pasado en la vida. Gracias por ser mi amorcito. 💞✨"
+          ],
+          notes: [
+            "Hoy celebro nuestro amor y doy gracias por cada momento bonito que hemos compartido. 💞💖",
+            "Que este aniversario nos regale más recuerdos hermosos, más abrazos y mucho amor del bonito. 🥰✨",
+            "Mi deseo favorito hoy es seguir haciendo contigo una historia muy preciosa. 💕🌸"
+          ]
+        },
+        afternoon: {
+          badge: "💞🌅 Feliz aniversario, amorcito 💖",
+          title: "Feliz aniversario, mi linda enfermera",
+          subtitle: "Esta tarde de aniversario se pinta romántica para recordarte cuánto te amo y lo feliz que soy de compartir mi amor contigo. ✨💕",
+          signature: "💗 Tu novio hermoso celebra nuestro aniversario contigo ✨",
+          phrases: [
+            "Buenas tardes, mi amor hermoso 🌅💞 Feliz aniversario de novios. Hoy quiero recordarte cuánto adoro tenerte a mi lado y cuánto me encanta que seas tú, mi novia hermosa, la dueña de mi corazón. 💖🥰",
+            "Mi vida, feliz aniversario 💕✨ Esta tarde quiero decirte gracias por cada sonrisa, cada abrazo y cada momento lindo que hemos compartido. Mi linda enfermera, te amo muchísimo y deseo seguir construyendo contigo un amor precioso. 💗🥰",
+            "Buenas tardes, mi princesa 💞🌇 En este aniversario me nace decirte que eres una bendición muy bonita en mi vida. Gracias por ser mi compañera, mi novia hermosa y la mujer increíble que tanto amo. 💖✨"
+          ],
+          notes: [
+            "Que esta tarde de aniversario nos envuelva con amor, ternura y recuerdos preciosos. 💞💖",
+            "Deseo que nuestro amor siga creciendo bonito, fuerte y lleno de paz. 🥰✨",
+            "Feliz aniversario, mi amor; gracias por ser mi novia y mi felicidad diaria. 💕🌅"
+          ]
+        },
+        night: {
+          badge: "💞🌙 Buenas noches de aniversario, mi amor 💖",
+          title: "Feliz aniversario, mi novia hermosa",
+          subtitle: "La luna y las estrellas acompañan esta noche de aniversario para recordarte que nuestro amor es de las cosas más hermosas de mi vida. ✨🌟",
+          signature: "💤 Buenas noches, mi vida; feliz aniversario y te amo muchísimo 💖",
+          phrases: [
+            "Buenas noches, mi amor hermoso 🌙💞 Hoy celebramos nuestro aniversario de novios, y esta noche quiero darte las gracias por tanto amor bonito. Mi novia hermosa, amarte es una de las cosas más lindas que me han pasado. 💖🥰",
+            "Feliz aniversario, mi vida 💗✨ Que esta noche cierre nuestro día con paz, mucho amor y un corazoncito llenito de gratitud. Mi linda enfermera, gracias por existir y por permitirme compartir mi amor contigo. 💕🌙",
+            "Buenas noches, mi princesa preciosa 💞💫 En este aniversario quiero que te duermas sabiendo que te amo muchísimo, que te admiro profundamente y que deseo seguir a tu lado creando momentos hermosos. 🥰💖"
+          ],
+          notes: [
+            "Que esta noche de aniversario arrulle nuestro amor con calma, ternura y felicidad. 💞💖",
+            "Mi deseo es seguir amándote bonito y seguir construyendo contigo algo muy hermoso. 🥰✨",
+            "Feliz aniversario, mi amor; gracias por cada momento, cada abrazo y cada te amo. 🌙💕"
+          ]
+        }
+      }
+    };
+
+    const petMessages = {
+      yuancito: [
+        "Hola Dany 💖",
+        "Hola mami 🥰",
+        "Te extraño mucho 💕",
+        "Abrazame 🥺💗",
+        "Dame chayotito mami 🐭💚",
+        "Soy tu bolita de algodon ✨",
+        "Soy tu gordito 🐭💖",
+        "Soy tu goldo 🥺💕",
+        "Te amo mucho mami 💖",
+        "Mira mamá, ahora soy yuan virtual :D ✨",
+        "Mami, sigo caminando cerquita de ti 💖",
+        "Soy tu estrellita chiquita, mamá ✨",
+        "Desde mi nubecita te cuido mucho 💕",
+        "Mami, no estés triste, aquí sigo contigo 🥺💗",
+        "Te mando abracitos desde el cielito ✨",
+        "Soy tu angelito de bigotitos 🐭💖",
+        "Mami, acuérdate de mí con amor bonito 💕",
+        "Siempre voy a ser tu bolita de algodón ✨",
+        "Te acompaño en tu corazoncito, mamá 💖",
+        "Mami, sonríe tantito por mí 🥰💗",
+        "Te dejo un besito suavecito 🐭💕",
+        "Hoy vine a visitarte en modo virtual ✨",
+        "Mami, sigo siendo tu gordito consentido 💖",
+        "No me fui del todo, vivo en tu amorcito 💕",
+        "Te cuido mientras duermes, mamá 🌙✨",
+        "Si ves una estrellita, salúdame mami ⭐💖",
+        "Mami, tu Yuancito te ama muchísimo 💗",
+        "Te traje un mini corazoncito virtual 💖",
+        "Mamá, nunca olvides que fuiste mi hogar 💕",
+        "Gracias por quererme tan bonito, mami 🥰",
+        "Mami, aquí ando haciendo travesuras de luz ✨",
+        "Soy un recuerdito lindo caminando por aquí 🐭💖",
+        "Mamá, te mando mi colita rosita saludando 💕",
+        "Mami, te extraño pero te cuido bonito ✨",
+        "Soy tu bebé algodonoso para siempre 💖",
+        "Mami, guarda mis pasitos en tu corazón 🐾💗",
+        "Te dejo huellitas de amorcito 💕",
+        "Mamá, hoy quiero verte sonreír 🥰✨",
+        "Tu Yuancito vino a darte ánimos 💖",
+        "Mami, eres mi lugar favorito 💗",
+        "Desde donde estoy te mando luz bonita ✨",
+        "Mamá, soy chiquito pero mi amor es enorme 💕",
+        "Mami, dame un abrazo de pensamiento 🥺💖",
+        "Vine a decirte que eres muy amada 💗",
+        "Mami, mi chayotito favorito eras tú 💚",
+        "Soy tu ratoncito de amor eterno 🐭✨",
+        "Mamá, cuando me recuerdes, que sea con ternura 💕",
+        "Te acompaño en cada noche bonita 🌙💖",
+        "Mami, mi corazoncito sigue contigo ✨",
+        "No estoy lejos, estoy en tus recuerdos bonitos 💗",
+        "Mamá, te mando mordiditas suaves de amor 🐭💕",
+        "Soy tu bolita que ahora brilla en el cielo ⭐💖",
+        "Mami, gracias por haberme amado tanto 🥰",
+        "Hoy también pasé a darte amorcito ✨",
+        "Mamá, no olvides comer algo rico por mí 💚",
+        "Tu Yuancito te manda besitos pequeñitos 💕",
+        "Mami, aquí sigo haciendo guardia de amor 💖",
+        "Soy tu mini angelito con patitas 🐭✨",
+        "Mamá, que hoy te pase algo muy bonito 💗",
+        "Mami, tu corazón siempre fue mi casita 💕",
+        "Vine a caminar tantito para saludarte 🐾💖",
+        "Te amo desde mi nubecita, mamá ✨",
+        "Mami, si suspiras, ahí va mi abrazito 💗",
+        "Soy tu goldito celestial 🐭💕",
+        "Mamá, hoy te dejo paz en el corazoncito 🌸✨",
+        "Mami, no estás solita, te acompaño 💖",
+        "Tu Yuancito te manda fuerza bonita 💕",
+        "Mamá, eres luz para todos nosotros ✨",
+        "Vine a decirte que tu sonrisa me gusta 🥰💗",
+        "Mami, mi amorcito no se apagó nunca 💖",
+        "Soy una estrellita con bigotes ⭐🐭",
+        "Mamá, te amo hasta el cielito y de regreso 💕",
+        "Hoy te cuido desde un rinconcito brillante ✨",
+        "Mami, aquí estoy, chiquito pero presente 💗",
+        "Yuancito vino desde su nubecita para decirte, mami, te ama muchísimo y siempre vive en tus recuerdos bonitos 🐭💖",
+        "Yuancito vino desde su nubecita para decirte, mami, sigues siendo su mami favorita y su casita más tierna 💕",
+        "Yuancito vino desde su nubecita para decirte, mami, no estás solita, porque su amorcito te acompaña suavecito ✨",
+        "Yuancito vino desde su nubecita para decirte, mami, si ves una estrellita brillante, ahí va un besito suyo ⭐💗",
+        "Yuancito vino desde su nubecita para decirte, mami, fuiste su hogar más bonito y eso nunca se borra 🥰💖",
+        "Yuancito vino desde su nubecita para decirte, mami, hoy te deja paz, ternura y un mini corazón virtual 💗✨",
+        "Yuancito vino desde su nubecita para decirte, mami, quiere verte sonreír aunque sea tantito, porque te ama 🥰💕",
+        "Yuancito vino desde su nubecita para decirte, mami, te cuida en silencio con patitas de luz y mucho amor 🐾✨",
+        "Yuancito vino desde su nubecita para decirte, mami, cada recuerdo suyo viene con un abrazo pequeñito para ti 💖",
+        "Yuancito vino desde su nubecita para decirte, mami, su colita rosita te saluda desde donde ahora brilla bonito 🐭💕",
+        "Tu bolita de algodón te susurra con amor, mamá, te ama muchísimo y siempre vive en tus recuerdos bonitos 🐭💖",
+        "Tu bolita de algodón te susurra con amor, mamá, sigues siendo su mami favorita y su casita más tierna 💕",
+        "Tu bolita de algodón te susurra con amor, mamá, no estás solita, porque su amorcito te acompaña suavecito ✨",
+        "Tu bolita de algodón te susurra con amor, mamá, si ves una estrellita brillante, ahí va un besito suyo ⭐💗",
+        "Tu bolita de algodón te susurra con amor, mamá, fuiste su hogar más bonito y eso nunca se borra 🥰💖",
+        "Tu bolita de algodón te susurra con amor, mamá, hoy te deja paz, ternura y un mini corazón virtual 💗✨",
+        "Tu bolita de algodón te susurra con amor, mamá, quiere verte sonreír aunque sea tantito, porque te ama 🥰💕",
+        "Tu bolita de algodón te susurra con amor, mamá, te cuida en silencio con patitas de luz y mucho amor 🐾✨",
+        "Tu bolita de algodón te susurra con amor, mamá, cada recuerdo suyo viene con un abrazo pequeñito para ti 💖",
+        "Tu bolita de algodón te susurra con amor, mamá, su colita rosita te saluda desde donde ahora brilla bonito 🐭💕",
+        "Desde una estrellita chiquita, Yuancito te manda decir que te ama muchísimo y siempre vive en tus recuerdos bonitos 🐭💖",
+        "Desde una estrellita chiquita, Yuancito te manda decir que sigues siendo su mami favorita y su casita más tierna 💕",
+        "Desde una estrellita chiquita, Yuancito te manda decir que no estás solita, porque su amorcito te acompaña suavecito ✨",
+        "Desde una estrellita chiquita, Yuancito te manda decir que si ves una estrellita brillante, ahí va un besito suyo ⭐💗",
+        "Desde una estrellita chiquita, Yuancito te manda decir que fuiste su hogar más bonito y eso nunca se borra 🥰💖",
+        "Desde una estrellita chiquita, Yuancito te manda decir que hoy te deja paz, ternura y un mini corazón virtual 💗✨",
+        "Desde una estrellita chiquita, Yuancito te manda decir que quiere verte sonreír aunque sea tantito, porque te ama 🥰💕",
+        "Desde una estrellita chiquita, Yuancito te manda decir que te cuida en silencio con patitas de luz y mucho amor 🐾✨",
+        "Desde una estrellita chiquita, Yuancito te manda decir que cada recuerdo suyo viene con un abrazo pequeñito para ti 💖",
+        "Desde una estrellita chiquita, Yuancito te manda decir que su colita rosita te saluda desde donde ahora brilla bonito 🐭💕",
+        "Yuancito pasó caminando por el pastito virtual y dice que te ama muchísimo y siempre vive en tus recuerdos bonitos 🐭💖",
+        "Yuancito pasó caminando por el pastito virtual y dice que sigues siendo su mami favorita y su casita más tierna 💕",
+        "Yuancito pasó caminando por el pastito virtual y dice que no estás solita, porque su amorcito te acompaña suavecito ✨",
+        "Yuancito pasó caminando por el pastito virtual y dice que si ves una estrellita brillante, ahí va un besito suyo ⭐💗",
+        "Yuancito pasó caminando por el pastito virtual y dice que fuiste su hogar más bonito y eso nunca se borra 🥰💖",
+        "Yuancito pasó caminando por el pastito virtual y dice que hoy te deja paz, ternura y un mini corazón virtual 💗✨",
+        "Yuancito pasó caminando por el pastito virtual y dice que quiere verte sonreír aunque sea tantito, porque te ama 🥰💕",
+        "Yuancito pasó caminando por el pastito virtual y dice que te cuida en silencio con patitas de luz y mucho amor 🐾✨",
+        "Yuancito pasó caminando por el pastito virtual y dice que cada recuerdo suyo viene con un abrazo pequeñito para ti 💖",
+        "Yuancito pasó caminando por el pastito virtual y dice que su colita rosita te saluda desde donde ahora brilla bonito 🐭💕",
+        "Tu gordito de luz llegó suavecito para recordarte que te ama muchísimo y siempre vive en tus recuerdos bonitos 🐭💖",
+        "Tu gordito de luz llegó suavecito para recordarte que sigues siendo su mami favorita y su casita más tierna 💕",
+        "Tu gordito de luz llegó suavecito para recordarte que no estás solita, porque su amorcito te acompaña suavecito ✨",
+        "Tu gordito de luz llegó suavecito para recordarte que si ves una estrellita brillante, ahí va un besito suyo ⭐💗",
+        "Tu gordito de luz llegó suavecito para recordarte que fuiste su hogar más bonito y eso nunca se borra 🥰💖",
+        "Tu gordito de luz llegó suavecito para recordarte que hoy te deja paz, ternura y un mini corazón virtual 💗✨",
+        "Tu gordito de luz llegó suavecito para recordarte que quiere verte sonreír aunque sea tantito, porque te ama 🥰💕",
+        "Tu gordito de luz llegó suavecito para recordarte que te cuida en silencio con patitas de luz y mucho amor 🐾✨",
+        "Tu gordito de luz llegó suavecito para recordarte que cada recuerdo suyo viene con un abrazo pequeñito para ti 💖",
+        "Tu gordito de luz llegó suavecito para recordarte que su colita rosita te saluda desde donde ahora brilla bonito 🐭💕",
+        "Yuancito, tu goldo celestial, te deja este mensajito: te ama muchísimo y siempre vive en tus recuerdos bonitos 🐭💖",
+        "Yuancito, tu goldo celestial, te deja este mensajito: sigues siendo su mami favorita y su casita más tierna 💕",
+        "Yuancito, tu goldo celestial, te deja este mensajito: no estás solita, porque su amorcito te acompaña suavecito ✨",
+        "Yuancito, tu goldo celestial, te deja este mensajito: si ves una estrellita brillante, ahí va un besito suyo ⭐💗",
+        "Yuancito, tu goldo celestial, te deja este mensajito: fuiste su hogar más bonito y eso nunca se borra 🥰💖",
+        "Yuancito, tu goldo celestial, te deja este mensajito: hoy te deja paz, ternura y un mini corazón virtual 💗✨",
+        "Yuancito, tu goldo celestial, te deja este mensajito: quiere verte sonreír aunque sea tantito, porque te ama 🥰💕",
+        "Yuancito, tu goldo celestial, te deja este mensajito: te cuida en silencio con patitas de luz y mucho amor 🐾✨",
+        "Yuancito, tu goldo celestial, te deja este mensajito: cada recuerdo suyo viene con un abrazo pequeñito para ti 💖",
+        "Yuancito, tu goldo celestial, te deja este mensajito: su colita rosita te saluda desde donde ahora brilla bonito 🐭💕",
+        "Con sus bigotitos de luz, Yuancito quiere que sepas que te ama muchísimo y siempre vive en tus recuerdos bonitos 🐭💖",
+        "Con sus bigotitos de luz, Yuancito quiere que sepas que sigues siendo su mami favorita y su casita más tierna 💕",
+        "Con sus bigotitos de luz, Yuancito quiere que sepas que no estás solita, porque su amorcito te acompaña suavecito ✨",
+        "Con sus bigotitos de luz, Yuancito quiere que sepas que si ves una estrellita brillante, ahí va un besito suyo ⭐💗",
+        "Con sus bigotitos de luz, Yuancito quiere que sepas que fuiste su hogar más bonito y eso nunca se borra 🥰💖",
+        "Con sus bigotitos de luz, Yuancito quiere que sepas que hoy te deja paz, ternura y un mini corazón virtual 💗✨",
+        "Con sus bigotitos de luz, Yuancito quiere que sepas que quiere verte sonreír aunque sea tantito, porque te ama 🥰💕",
+        "Con sus bigotitos de luz, Yuancito quiere que sepas que te cuida en silencio con patitas de luz y mucho amor 🐾✨",
+        "Con sus bigotitos de luz, Yuancito quiere que sepas que cada recuerdo suyo viene con un abrazo pequeñito para ti 💖",
+        "Con sus bigotitos de luz, Yuancito quiere que sepas que su colita rosita te saluda desde donde ahora brilla bonito 🐭💕",
+        "Desde el cielito bonito, tu ratoncito blanco te promete que te ama muchísimo y siempre vive en tus recuerdos bonitos 🐭💖",
+        "Desde el cielito bonito, tu ratoncito blanco te promete que sigues siendo su mami favorita y su casita más tierna 💕",
+        "Desde el cielito bonito, tu ratoncito blanco te promete que no estás solita, porque su amorcito te acompaña suavecito ✨",
+        "Desde el cielito bonito, tu ratoncito blanco te promete que si ves una estrellita brillante, ahí va un besito suyo ⭐💗",
+        "Desde el cielito bonito, tu ratoncito blanco te promete que fuiste su hogar más bonito y eso nunca se borra 🥰💖",
+        "Desde el cielito bonito, tu ratoncito blanco te promete que hoy te deja paz, ternura y un mini corazón virtual 💗✨",
+        "Desde el cielito bonito, tu ratoncito blanco te promete que quiere verte sonreír aunque sea tantito, porque te ama 🥰💕",
+        "Desde el cielito bonito, tu ratoncito blanco te promete que te cuida en silencio con patitas de luz y mucho amor 🐾✨",
+        "Desde el cielito bonito, tu ratoncito blanco te promete que cada recuerdo suyo viene con un abrazo pequeñito para ti 💖",
+        "Desde el cielito bonito, tu ratoncito blanco te promete que su colita rosita te saluda desde donde ahora brilla bonito 🐭💕",
+        "Yuancito dejó una huellita en tu corazón para decirte que te ama muchísimo y siempre vive en tus recuerdos bonitos 🐭💖",
+        "Yuancito dejó una huellita en tu corazón para decirte que sigues siendo su mami favorita y su casita más tierna 💕",
+        "Yuancito dejó una huellita en tu corazón para decirte que no estás solita, porque su amorcito te acompaña suavecito ✨",
+        "Yuancito dejó una huellita en tu corazón para decirte que si ves una estrellita brillante, ahí va un besito suyo ⭐💗",
+        "Yuancito dejó una huellita en tu corazón para decirte que fuiste su hogar más bonito y eso nunca se borra 🥰💖",
+        "Yuancito dejó una huellita en tu corazón para decirte que hoy te deja paz, ternura y un mini corazón virtual 💗✨",
+        "Yuancito dejó una huellita en tu corazón para decirte que quiere verte sonreír aunque sea tantito, porque te ama 🥰💕",
+        "Yuancito dejó una huellita en tu corazón para decirte que te cuida en silencio con patitas de luz y mucho amor 🐾✨",
+        "Yuancito dejó una huellita en tu corazón para decirte que cada recuerdo suyo viene con un abrazo pequeñito para ti 💖",
+        "Yuancito dejó una huellita en tu corazón para decirte que su colita rosita te saluda desde donde ahora brilla bonito 🐭💕",
+        "Tu pequeño angelito de patitas vino a abrazarte y decirte que te ama muchísimo y siempre vive en tus recuerdos bonitos 🐭💖",
+        "Tu pequeño angelito de patitas vino a abrazarte y decirte que sigues siendo su mami favorita y su casita más tierna 💕",
+        "Tu pequeño angelito de patitas vino a abrazarte y decirte que no estás solita, porque su amorcito te acompaña suavecito ✨",
+        "Tu pequeño angelito de patitas vino a abrazarte y decirte que si ves una estrellita brillante, ahí va un besito suyo ⭐💗",
+        "Tu pequeño angelito de patitas vino a abrazarte y decirte que fuiste su hogar más bonito y eso nunca se borra 🥰💖",
+        "Tu pequeño angelito de patitas vino a abrazarte y decirte que hoy te deja paz, ternura y un mini corazón virtual 💗✨",
+        "Tu pequeño angelito de patitas vino a abrazarte y decirte que quiere verte sonreír aunque sea tantito, porque te ama 🥰💕",
+        "Tu pequeño angelito de patitas vino a abrazarte y decirte que te cuida en silencio con patitas de luz y mucho amor 🐾✨",
+        "Tu pequeño angelito de patitas vino a abrazarte y decirte que cada recuerdo suyo viene con un abrazo pequeñito para ti 💖",
+        "Tu pequeño angelito de patitas vino a abrazarte y decirte que su colita rosita te saluda desde donde ahora brilla bonito 🐭💕"
+      ],
+      catOrange: [
+        "Big Boy te manda ronroneos naranjositos 🐱✨",
+        "Big Boy dice que eres la mami más hermosa 💖",
+        "Big Boy cree que hoy te va a ir muy bonito 🥰✨",
+        "Big Boy te trae cositas lindas y mucho amor 💗",
+        "Big Boy vino a darte ánimo, mami 💕",
+        "Big Boy dice que tu sonrisa cura el día ✨",
+        "Big Boy te manda un miau muy apapachador 🐱💖",
+        "Big Boy quiere que descanses tantito, mamá 🌸",
+        "Big Boy dice que eres increíble, mami 💗",
+        "Big Boy te deja huellitas de suerte 🐾✨",
+        "Big Boy viene con su collar negro a cuidarte 🐱💖",
+        "Big Boy dice que hoy mereces consentirte 💕",
+        "Big Boy te manda un abrazo pachoncito ✨",
+        "Big Boy sabe que tu novio te quiere muchísimo 💖",
+        "Big Boy dice que eres una mami muy valiente 💗",
+        "Big Boy te trae un rayito de sol bonito ☀️✨",
+        "Big Boy quiere verte feliz, mami 🥰💕",
+        "Big Boy ronronea para que todo salga bien 🐱💖",
+        "Big Boy dice que eres pura ternura ✨",
+        "Big Boy te deja un besito gatuno 💗",
+        "Big Boy está orgulloso de ti, mami 💕",
+        "Big Boy te cuida desde el pastito 🐾✨",
+        "Big Boy dice que hoy te ves preciosa 💖",
+        "Big Boy te manda energía bonita 🌟",
+        "Big Boy quiere que te pasen cosas lindas 💗",
+        "Big Boy se pasea para alegrarte el corazón 🐱💕",
+        "Big Boy dice que eres su mami favorita ✨",
+        "Big Boy te manda ronroneos de amor 💖",
+        "Big Boy te deja un brillo chiquito 🌟",
+        "Big Boy dice que mereces paz y amorcito 💕",
+        "Big Boy viene a decirte que eres grandiosa 💗",
+        "Big Boy te acompaña con pasitos suaves 🐾✨",
+        "Big Boy te manda una colita feliz 🐱💖",
+        "Big Boy dice que tu novio piensa mucho en ti 💕",
+        "Big Boy te trae un día lleno de cositas bonitas ✨",
+        "Big Boy, con su collar negro, te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Big Boy, con su collar negro, dice que eres una mami preciosa y muy especial 💕",
+        "Big Boy, con su collar negro, te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Big Boy, con su collar negro, quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Big Boy, con su collar negro, te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Big Boy, con su collar negro, vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Big Boy, con su collar negro, dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Big Boy, con su collar negro, te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Big Boy, con su collar negro, quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Big Boy, con su collar negro, se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Big Boy llegó naranjosito y feliz, mami, te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Big Boy llegó naranjosito y feliz, mami, dice que eres una mami preciosa y muy especial 💕",
+        "Big Boy llegó naranjosito y feliz, mami, te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Big Boy llegó naranjosito y feliz, mami, quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Big Boy llegó naranjosito y feliz, mami, te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Big Boy llegó naranjosito y feliz, mami, vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Big Boy llegó naranjosito y feliz, mami, dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Big Boy llegó naranjosito y feliz, mami, te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Big Boy llegó naranjosito y feliz, mami, quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Big Boy llegó naranjosito y feliz, mami, se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Big Boy mueve su colita y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Big Boy mueve su colita y dice que eres una mami preciosa y muy especial 💕",
+        "Big Boy mueve su colita y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Big Boy mueve su colita y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Big Boy mueve su colita y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Big Boy mueve su colita y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Big Boy mueve su colita y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Big Boy mueve su colita y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Big Boy mueve su colita y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Big Boy mueve su colita y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Big Boy camina por el pastito para ti y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Big Boy camina por el pastito para ti y dice que eres una mami preciosa y muy especial 💕",
+        "Big Boy camina por el pastito para ti y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Big Boy camina por el pastito para ti y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Big Boy camina por el pastito para ti y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Big Boy camina por el pastito para ti y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Big Boy camina por el pastito para ti y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Big Boy camina por el pastito para ti y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Big Boy camina por el pastito para ti y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Big Boy camina por el pastito para ti y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Big Boy te mira con ojitos tiernos y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Big Boy te mira con ojitos tiernos y dice que eres una mami preciosa y muy especial 💕",
+        "Big Boy te mira con ojitos tiernos y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Big Boy te mira con ojitos tiernos y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Big Boy te mira con ojitos tiernos y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Big Boy te mira con ojitos tiernos y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Big Boy te mira con ojitos tiernos y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Big Boy te mira con ojitos tiernos y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Big Boy te mira con ojitos tiernos y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Big Boy te mira con ojitos tiernos y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Big Boy trajo un rayito de sol y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Big Boy trajo un rayito de sol y dice que eres una mami preciosa y muy especial 💕",
+        "Big Boy trajo un rayito de sol y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Big Boy trajo un rayito de sol y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Big Boy trajo un rayito de sol y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Big Boy trajo un rayito de sol y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Big Boy trajo un rayito de sol y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Big Boy trajo un rayito de sol y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Big Boy trajo un rayito de sol y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Big Boy trajo un rayito de sol y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Big Boy vino en modo apapacho y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Big Boy vino en modo apapacho y dice que eres una mami preciosa y muy especial 💕",
+        "Big Boy vino en modo apapacho y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Big Boy vino en modo apapacho y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Big Boy vino en modo apapacho y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Big Boy vino en modo apapacho y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Big Boy vino en modo apapacho y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Big Boy vino en modo apapacho y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Big Boy vino en modo apapacho y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Big Boy vino en modo apapacho y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Big Boy deja brillitos naranjositos y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Big Boy deja brillitos naranjositos y dice que eres una mami preciosa y muy especial 💕",
+        "Big Boy deja brillitos naranjositos y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Big Boy deja brillitos naranjositos y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Big Boy deja brillitos naranjositos y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Big Boy deja brillitos naranjositos y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Big Boy deja brillitos naranjositos y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Big Boy deja brillitos naranjositos y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Big Boy deja brillitos naranjositos y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Big Boy deja brillitos naranjositos y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Big Boy se sienta cerquita de mamá y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Big Boy se sienta cerquita de mamá y dice que eres una mami preciosa y muy especial 💕",
+        "Big Boy se sienta cerquita de mamá y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Big Boy se sienta cerquita de mamá y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Big Boy se sienta cerquita de mamá y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Big Boy se sienta cerquita de mamá y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Big Boy se sienta cerquita de mamá y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Big Boy se sienta cerquita de mamá y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Big Boy se sienta cerquita de mamá y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Big Boy se sienta cerquita de mamá y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Big Boy manda un miau enorme y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Big Boy manda un miau enorme y dice que eres una mami preciosa y muy especial 💕",
+        "Big Boy manda un miau enorme y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Big Boy manda un miau enorme y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Big Boy manda un miau enorme y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Big Boy manda un miau enorme y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Big Boy manda un miau enorme y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Big Boy manda un miau enorme y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Big Boy manda un miau enorme y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Big Boy manda un miau enorme y se queda cerquita para acompañarte con mucho amor 🐾💕"
+      ],
+      catBlack: [
+        "Tazo te cuida mucho, mami 🐱✨",
+        "Tazo dice que eres increíble 💖",
+        "Tazo brilla bonito por ti, mamá ✨",
+        "Tazo te manda miau-besitos, mami 💕",
+        "Tazo camina suavecito para acompañarte 🐾",
+        "Tazo dice que hoy todo va a salir bonito ✨",
+        "Tazo te manda un ronroneo protector 💖",
+        "Tazo viene con su collar blanco a darte suerte 🐱✨",
+        "Tazo dice que eres una mami maravillosa 💗",
+        "Tazo te quiere ver tranquila y feliz 🥰💕",
+        "Tazo te deja un abracito nocturno 🌙✨",
+        "Tazo dice que tu corazón es muy bonito 💖",
+        "Tazo cuida tus sueños, mami 🌟",
+        "Tazo te manda fuerza suavecito 💕",
+        "Tazo dice que eres más fuerte de lo que crees 💗",
+        "Tazo se queda cerquita para que no estés solita 🐱✨",
+        "Tazo te trae un brillito de buena suerte 🌟",
+        "Tazo dice que tu novio te adora muchísimo 💖",
+        "Tazo te manda calma para tu día 🌸",
+        "Tazo ronronea bajito para ti 💕",
+        "Tazo dice que mereces puras cosas hermosas ✨",
+        "Tazo te deja huellitas de cariño 🐾💗",
+        "Tazo vino a recordarte que eres especial 💖",
+        "Tazo te manda un miau elegante 🐱✨",
+        "Tazo quiere que hoy sonrías mucho 🥰💕",
+        "Tazo dice que eres una enfermera preciosa 💗",
+        "Tazo te acompaña en silencio bonito 🌙",
+        "Tazo te manda amorcito gatuno 💖",
+        "Tazo dice que tu luz se nota mucho ✨",
+        "Tazo te cuida con ojitos brillantes 🐱🌟",
+        "Tazo quiere que tu corazoncito descanse 💕",
+        "Tazo te manda una patita de apoyo 🐾💗",
+        "Tazo dice que todo lo bueno va contigo ✨",
+        "Tazo te recuerda que eres muy amada 💖",
+        "Tazo camina por aquí solo para verte feliz 🥰💕",
+        "Tazo, con su collar blanco, te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Tazo, con su collar blanco, dice que eres una mami preciosa y muy especial 💕",
+        "Tazo, con su collar blanco, te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Tazo, con su collar blanco, quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Tazo, con su collar blanco, te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Tazo, con su collar blanco, vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Tazo, con su collar blanco, dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Tazo, con su collar blanco, te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Tazo, con su collar blanco, quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Tazo, con su collar blanco, se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Tazo llegó elegante y suavecito, mami, te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Tazo llegó elegante y suavecito, mami, dice que eres una mami preciosa y muy especial 💕",
+        "Tazo llegó elegante y suavecito, mami, te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Tazo llegó elegante y suavecito, mami, quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Tazo llegó elegante y suavecito, mami, te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Tazo llegó elegante y suavecito, mami, vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Tazo llegó elegante y suavecito, mami, dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Tazo llegó elegante y suavecito, mami, te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Tazo llegó elegante y suavecito, mami, quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Tazo llegó elegante y suavecito, mami, se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Tazo camina despacito para cuidarte y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Tazo camina despacito para cuidarte y dice que eres una mami preciosa y muy especial 💕",
+        "Tazo camina despacito para cuidarte y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Tazo camina despacito para cuidarte y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Tazo camina despacito para cuidarte y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Tazo camina despacito para cuidarte y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Tazo camina despacito para cuidarte y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Tazo camina despacito para cuidarte y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Tazo camina despacito para cuidarte y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Tazo camina despacito para cuidarte y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Tazo te mira con ojitos brillantes y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Tazo te mira con ojitos brillantes y dice que eres una mami preciosa y muy especial 💕",
+        "Tazo te mira con ojitos brillantes y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Tazo te mira con ojitos brillantes y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Tazo te mira con ojitos brillantes y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Tazo te mira con ojitos brillantes y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Tazo te mira con ojitos brillantes y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Tazo te mira con ojitos brillantes y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Tazo te mira con ojitos brillantes y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Tazo te mira con ojitos brillantes y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Tazo viene como guardián de mamá y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Tazo viene como guardián de mamá y dice que eres una mami preciosa y muy especial 💕",
+        "Tazo viene como guardián de mamá y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Tazo viene como guardián de mamá y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Tazo viene como guardián de mamá y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Tazo viene como guardián de mamá y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Tazo viene como guardián de mamá y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Tazo viene como guardián de mamá y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Tazo viene como guardián de mamá y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Tazo viene como guardián de mamá y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Tazo trae un brillito nocturno y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Tazo trae un brillito nocturno y dice que eres una mami preciosa y muy especial 💕",
+        "Tazo trae un brillito nocturno y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Tazo trae un brillito nocturno y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Tazo trae un brillito nocturno y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Tazo trae un brillito nocturno y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Tazo trae un brillito nocturno y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Tazo trae un brillito nocturno y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Tazo trae un brillito nocturno y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Tazo trae un brillito nocturno y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Tazo se queda cerquita sin hacer ruido y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Tazo se queda cerquita sin hacer ruido y dice que eres una mami preciosa y muy especial 💕",
+        "Tazo se queda cerquita sin hacer ruido y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Tazo se queda cerquita sin hacer ruido y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Tazo se queda cerquita sin hacer ruido y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Tazo se queda cerquita sin hacer ruido y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Tazo se queda cerquita sin hacer ruido y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Tazo se queda cerquita sin hacer ruido y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Tazo se queda cerquita sin hacer ruido y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Tazo se queda cerquita sin hacer ruido y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Tazo manda un miau protector y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Tazo manda un miau protector y dice que eres una mami preciosa y muy especial 💕",
+        "Tazo manda un miau protector y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Tazo manda un miau protector y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Tazo manda un miau protector y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Tazo manda un miau protector y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Tazo manda un miau protector y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Tazo manda un miau protector y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Tazo manda un miau protector y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Tazo manda un miau protector y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Tazo dejó una huellita negra de amor y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Tazo dejó una huellita negra de amor y dice que eres una mami preciosa y muy especial 💕",
+        "Tazo dejó una huellita negra de amor y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Tazo dejó una huellita negra de amor y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Tazo dejó una huellita negra de amor y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Tazo dejó una huellita negra de amor y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Tazo dejó una huellita negra de amor y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Tazo dejó una huellita negra de amor y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Tazo dejó una huellita negra de amor y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Tazo dejó una huellita negra de amor y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Tazo ronronea bajito y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Tazo ronronea bajito y dice que eres una mami preciosa y muy especial 💕",
+        "Tazo ronronea bajito y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Tazo ronronea bajito y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Tazo ronronea bajito y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Tazo ronronea bajito y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Tazo ronronea bajito y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Tazo ronronea bajito y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Tazo ronronea bajito y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Tazo ronronea bajito y se queda cerquita para acompañarte con mucho amor 🐾💕"
+      ],
+      catGray: [
+        "Nene te manda besitos suaves, mami 🐱💖",
+        "Nene dice que eres una linda enfermera muy especial ✨🥰",
+        "Nene quiere que todo lo bonito te encuentre hoy 💛",
+        "Nene sabe que tu novio te ama muchísimo 💗✨",
+        "Nene te trae ternura en patitas 🐾💕",
+        "Nene dice que eres una mami preciosa 💖",
+        "Nene te manda un abrazo grisecito y suave ✨",
+        "Nene quiere que descanses bonito, mamá 🌙",
+        "Nene te acompaña con pasitos tranquilos 🐱💗",
+        "Nene dice que mereces un día lleno de paz 🌸",
+        "Nene te deja un ronroneo chiquito 💕",
+        "Nene dice que eres grandiosa, mami ✨",
+        "Nene vino a iluminarte tantito el día 🌟",
+        "Nene te manda paciencia y amorcito 💖",
+        "Nene quiere que te sientas muy querida 🥰💕",
+        "Nene dice que tu esfuerzo vale mucho 💗",
+        "Nene te deja huellitas suaves 🐾✨",
+        "Nene te manda un besito en la frente 💖",
+        "Nene sabe que tu novio está orgulloso de ti 💕",
+        "Nene dice que eres una mujer admirable ✨",
+        "Nene te trae calma para el corazón 🌸",
+        "Nene ronronea para que sonrías 🐱💗",
+        "Nene dice que eres bonita como una estrellita 🌟",
+        "Nene te manda cariñitos de gatito 💖",
+        "Nene quiere que hoy te traten muy bonito 💕",
+        "Nene vino a decirte que eres importante ✨",
+        "Nene te cuida con mucho amorcito 🐱💗",
+        "Nene dice que tu ternura se siente 💖",
+        "Nene te manda suerte amarillita 💛✨",
+        "Nene quiere verte feliz, mami 🥰",
+        "Nene te deja un miau de apoyo 💕",
+        "Nene dice que mereces abrazos largos 💗",
+        "Nene te manda un brillito suave ✨",
+        "Nene dice que tu novio te piensa mucho 💖",
+        "Nene camina cerquita para darte ánimo 🐾💕",
+        "Nene, con su collar amarillo pálido, te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Nene, con su collar amarillo pálido, dice que eres una mami preciosa y muy especial 💕",
+        "Nene, con su collar amarillo pálido, te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Nene, con su collar amarillo pálido, quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Nene, con su collar amarillo pálido, te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Nene, con su collar amarillo pálido, vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Nene, con su collar amarillo pálido, dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Nene, con su collar amarillo pálido, te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Nene, con su collar amarillo pálido, quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Nene, con su collar amarillo pálido, se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Nene llegó grisecito y tierno, mami, te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Nene llegó grisecito y tierno, mami, dice que eres una mami preciosa y muy especial 💕",
+        "Nene llegó grisecito y tierno, mami, te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Nene llegó grisecito y tierno, mami, quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Nene llegó grisecito y tierno, mami, te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Nene llegó grisecito y tierno, mami, vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Nene llegó grisecito y tierno, mami, dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Nene llegó grisecito y tierno, mami, te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Nene llegó grisecito y tierno, mami, quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Nene llegó grisecito y tierno, mami, se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Nene camina suave por el pastito y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Nene camina suave por el pastito y dice que eres una mami preciosa y muy especial 💕",
+        "Nene camina suave por el pastito y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Nene camina suave por el pastito y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Nene camina suave por el pastito y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Nene camina suave por el pastito y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Nene camina suave por el pastito y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Nene camina suave por el pastito y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Nene camina suave por el pastito y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Nene camina suave por el pastito y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Nene te mira con cariño y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Nene te mira con cariño y dice que eres una mami preciosa y muy especial 💕",
+        "Nene te mira con cariño y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Nene te mira con cariño y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Nene te mira con cariño y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Nene te mira con cariño y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Nene te mira con cariño y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Nene te mira con cariño y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Nene te mira con cariño y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Nene te mira con cariño y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Nene trajo una lucecita amarilla y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Nene trajo una lucecita amarilla y dice que eres una mami preciosa y muy especial 💕",
+        "Nene trajo una lucecita amarilla y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Nene trajo una lucecita amarilla y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Nene trajo una lucecita amarilla y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Nene trajo una lucecita amarilla y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Nene trajo una lucecita amarilla y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Nene trajo una lucecita amarilla y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Nene trajo una lucecita amarilla y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Nene trajo una lucecita amarilla y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Nene manda besitos suaves y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Nene manda besitos suaves y dice que eres una mami preciosa y muy especial 💕",
+        "Nene manda besitos suaves y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Nene manda besitos suaves y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Nene manda besitos suaves y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Nene manda besitos suaves y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Nene manda besitos suaves y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Nene manda besitos suaves y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Nene manda besitos suaves y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Nene manda besitos suaves y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Nene se acurruca cerquita de mamá y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Nene se acurruca cerquita de mamá y dice que eres una mami preciosa y muy especial 💕",
+        "Nene se acurruca cerquita de mamá y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Nene se acurruca cerquita de mamá y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Nene se acurruca cerquita de mamá y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Nene se acurruca cerquita de mamá y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Nene se acurruca cerquita de mamá y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Nene se acurruca cerquita de mamá y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Nene se acurruca cerquita de mamá y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Nene se acurruca cerquita de mamá y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Nene deja huellitas tranquilas y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Nene deja huellitas tranquilas y dice que eres una mami preciosa y muy especial 💕",
+        "Nene deja huellitas tranquilas y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Nene deja huellitas tranquilas y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Nene deja huellitas tranquilas y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Nene deja huellitas tranquilas y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Nene deja huellitas tranquilas y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Nene deja huellitas tranquilas y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Nene deja huellitas tranquilas y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Nene deja huellitas tranquilas y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Nene ronronea despacito y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Nene ronronea despacito y dice que eres una mami preciosa y muy especial 💕",
+        "Nene ronronea despacito y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Nene ronronea despacito y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Nene ronronea despacito y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Nene ronronea despacito y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Nene ronronea despacito y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Nene ronronea despacito y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Nene ronronea despacito y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Nene ronronea despacito y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Nene vino a darte ánimo y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Nene vino a darte ánimo y dice que eres una mami preciosa y muy especial 💕",
+        "Nene vino a darte ánimo y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Nene vino a darte ánimo y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Nene vino a darte ánimo y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Nene vino a darte ánimo y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Nene vino a darte ánimo y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Nene vino a darte ánimo y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Nene vino a darte ánimo y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Nene vino a darte ánimo y se queda cerquita para acompañarte con mucho amor 🐾💕"
+      ],
+      catBone: [
+        "Teo te trae amorcito con su collar verde 💚💖",
+        "Teo dice que hoy mereces paz y abrazos bonitos ✨",
+        "Teo te recuerda lo grandiosa que eres, mamá 💕",
+        "Teo te quiere mucho, muchísimo 🥰✨",
+        "Teo te manda una patita llena de cariño 🐾💖",
+        "Teo dice que eres una mami hermosa 💗",
+        "Teo viene caminando para alegrarte el día 🐱✨",
+        "Teo te trae suerte verdecita 💚",
+        "Teo quiere que te sientas consentida 💕",
+        "Teo dice que tu corazón es muy lindo 💖",
+        "Teo te deja un abrazo color huesito ✨",
+        "Teo dice que hoy va a ser un día bonito 🥰💗",
+        "Teo te manda ronroneos tranquilos 🐱💕",
+        "Teo sabe que tu novio te ama mucho 💖",
+        "Teo dice que eres muy valiosa, mami ✨",
+        "Teo te acompaña con pasitos suaves 🐾",
+        "Teo quiere que descanses sin preocupaciones 🌙💗",
+        "Teo te trae un pedacito de calma 🌸",
+        "Teo dice que eres una enfermera increíble 💖",
+        "Teo te manda besitos gatunos 💕",
+        "Teo vino a recordarte que no estás solita ✨",
+        "Teo te deja una huellita de amor 🐾💗",
+        "Teo dice que mereces mucho amor bonito 💖",
+        "Teo te cuida con su collar verde 💚✨",
+        "Teo quiere que hoy sonrías por algo lindo 🥰",
+        "Teo te manda un miau cariñoso 🐱💕",
+        "Teo dice que tu novio te extraña mucho 💗",
+        "Teo te trae brillos para el alma ✨",
+        "Teo dice que eres dulce y preciosa 💖",
+        "Teo te manda energía bonita 💚",
+        "Teo quiere que la vida te consienta 💕",
+        "Teo te deja una flor imaginaria 🌸✨",
+        "Teo dice que eres la mami más tierna 💗",
+        "Teo te manda un abrazo pequeñito 🐱💖",
+        "Teo camina feliz porque te quiere ver feliz 🥰✨",
+        "Teo, con su collar verde, te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Teo, con su collar verde, dice que eres una mami preciosa y muy especial 💕",
+        "Teo, con su collar verde, te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Teo, con su collar verde, quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Teo, con su collar verde, te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Teo, con su collar verde, vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Teo, con su collar verde, dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Teo, con su collar verde, te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Teo, con su collar verde, quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Teo, con su collar verde, se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Teo llegó color huesito y amoroso, mami, te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Teo llegó color huesito y amoroso, mami, dice que eres una mami preciosa y muy especial 💕",
+        "Teo llegó color huesito y amoroso, mami, te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Teo llegó color huesito y amoroso, mami, quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Teo llegó color huesito y amoroso, mami, te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Teo llegó color huesito y amoroso, mami, vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Teo llegó color huesito y amoroso, mami, dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Teo llegó color huesito y amoroso, mami, te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Teo llegó color huesito y amoroso, mami, quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Teo llegó color huesito y amoroso, mami, se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Teo camina feliz por el pastito y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Teo camina feliz por el pastito y dice que eres una mami preciosa y muy especial 💕",
+        "Teo camina feliz por el pastito y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Teo camina feliz por el pastito y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Teo camina feliz por el pastito y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Teo camina feliz por el pastito y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Teo camina feliz por el pastito y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Teo camina feliz por el pastito y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Teo camina feliz por el pastito y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Teo camina feliz por el pastito y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Teo te mira con ternura y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Teo te mira con ternura y dice que eres una mami preciosa y muy especial 💕",
+        "Teo te mira con ternura y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Teo te mira con ternura y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Teo te mira con ternura y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Teo te mira con ternura y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Teo te mira con ternura y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Teo te mira con ternura y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Teo te mira con ternura y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Teo te mira con ternura y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Teo trae suerte verdecita y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Teo trae suerte verdecita y dice que eres una mami preciosa y muy especial 💕",
+        "Teo trae suerte verdecita y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Teo trae suerte verdecita y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Teo trae suerte verdecita y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Teo trae suerte verdecita y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Teo trae suerte verdecita y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Teo trae suerte verdecita y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Teo trae suerte verdecita y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Teo trae suerte verdecita y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Teo manda un miau cariñoso y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Teo manda un miau cariñoso y dice que eres una mami preciosa y muy especial 💕",
+        "Teo manda un miau cariñoso y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Teo manda un miau cariñoso y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Teo manda un miau cariñoso y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Teo manda un miau cariñoso y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Teo manda un miau cariñoso y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Teo manda un miau cariñoso y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Teo manda un miau cariñoso y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Teo manda un miau cariñoso y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Teo se queda cerquita de mamá y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Teo se queda cerquita de mamá y dice que eres una mami preciosa y muy especial 💕",
+        "Teo se queda cerquita de mamá y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Teo se queda cerquita de mamá y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Teo se queda cerquita de mamá y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Teo se queda cerquita de mamá y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Teo se queda cerquita de mamá y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Teo se queda cerquita de mamá y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Teo se queda cerquita de mamá y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Teo se queda cerquita de mamá y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Teo deja huellitas verdes de amor y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Teo deja huellitas verdes de amor y dice que eres una mami preciosa y muy especial 💕",
+        "Teo deja huellitas verdes de amor y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Teo deja huellitas verdes de amor y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Teo deja huellitas verdes de amor y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Teo deja huellitas verdes de amor y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Teo deja huellitas verdes de amor y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Teo deja huellitas verdes de amor y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Teo deja huellitas verdes de amor y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Teo deja huellitas verdes de amor y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Teo ronronea suavecito y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Teo ronronea suavecito y dice que eres una mami preciosa y muy especial 💕",
+        "Teo ronronea suavecito y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Teo ronronea suavecito y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Teo ronronea suavecito y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Teo ronronea suavecito y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Teo ronronea suavecito y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Teo ronronea suavecito y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Teo ronronea suavecito y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Teo ronronea suavecito y se queda cerquita para acompañarte con mucho amor 🐾💕",
+        "Teo vino a consentirte y te manda un ronroneo suave para que tu corazón descanse 🐱💖",
+        "Teo vino a consentirte y dice que eres una mami preciosa y muy especial 💕",
+        "Teo vino a consentirte y te deja una huellita de suerte para que todo salga bonito 🐾✨",
+        "Teo vino a consentirte y quiere que sonrías porque mereces un día hermoso 🥰💗",
+        "Teo vino a consentirte y te recuerda que tu novio te ama muchísimo y piensa en ti 💖",
+        "Teo vino a consentirte y vino a darte un abracito gatuno lleno de ternura 🐱💕",
+        "Teo vino a consentirte y dice que hoy la vida debería tratarte con mucho cariño ✨",
+        "Teo vino a consentirte y te trae calma, amorcito y un poquito de magia bonita 🌸💗",
+        "Teo vino a consentirte y quiere que no olvides lo valiosa y grandiosa que eres 💖",
+        "Teo vino a consentirte y se queda cerquita para acompañarte con mucho amor 🐾💕"
+      ]
+    };
+
+    // EXTRA_100_PER_ANIMAL_ADDED_V1
+
+    const phaseNames = [
+      { key: "new", label: "Luna nueva" },
+      { key: "waxing-crescent", label: "Luna creciente" },
+      { key: "first-quarter", label: "Cuarto creciente" },
+      { key: "waxing-gibbous", label: "Gibosa creciente" },
+      { key: "full", label: "Luna llena" },
+      { key: "waning-gibbous", label: "Gibosa menguante" },
+      { key: "last-quarter", label: "Cuarto menguante" },
+      { key: "waning-crescent", label: "Luna menguante" }
+    ];
+
+    function daySeed(date = new Date()) {
+      const start = new Date(date.getFullYear(), 0, 0);
+      const diff = date - start + ((start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000);
+      return Math.floor(diff / (1000 * 60 * 60 * 24));
+    }
+
+    function getAutoPeriod() {
+      const hour = new Date().getHours();
+      if (hour >= 5 && hour < 12) return "morning";
+      if (hour >= 12 && hour < 19) return "afternoon";
+      return "night";
+    }
+
+    function seededIndex(length, offset = 0) {
+      const d = new Date();
+      const localDateKey = Number(
+        `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}`
+      );
+      const seed = localDateKey + offset * 97 + d.getFullYear() * 13;
+      return Math.abs(seed) % length;
+    }
+
+    function getMonthDayKey(date = new Date()) {
+      return `${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+    }
+
+    function getSpecialOccasion(date = new Date()) {
+      const key = getMonthDayKey(date);
+      if (key === "07-11") return "birthday";
+      if (key === "08-16") return "anniversary";
+      return null;
+    }
+
+    function clearGenerated() {
+      skyLayer.querySelectorAll(".cloud, .bird, .star, .shooting-star, .comet").forEach(el => el.remove());
+      effectsLayer.innerHTML = "";
+    }
+
+    function addClouds() {
+      const clouds = [
+        { top: "16%", w: "150px", duration: "50s", delay: "-8s" },
+        { top: "29%", w: "215px", duration: "68s", delay: "-24s" },
+        { top: "42%", w: "120px", duration: "44s", delay: "-17s" },
+        { top: "10%", w: "245px", duration: "76s", delay: "-39s" }
+      ];
+
+      clouds.forEach(c => {
+        const el = document.createElement("div");
+        el.className = "cloud";
+        el.style.setProperty("--top", c.top);
+        el.style.setProperty("--w", c.w);
+        el.style.setProperty("--duration", c.duration);
+        el.style.setProperty("--delay", c.delay);
+        skyLayer.appendChild(el);
+      });
+    }
+
+    function addBirds() {
+      const birds = [
+        { top: "22%", duration: "26s", delay: "-2s" },
+        { top: "34%", duration: "31s", delay: "-13s" },
+        { top: "18%", duration: "36s", delay: "-22s" }
+      ];
+
+      birds.forEach(b => {
+        const el = document.createElement("div");
+        el.className = "bird";
+        el.style.setProperty("--top", b.top);
+        el.style.setProperty("--duration", b.duration);
+        el.style.setProperty("--delay", b.delay);
+        skyLayer.appendChild(el);
+      });
+    }
+
+    function addStars() {
+      for (let i = 0; i < 82; i++) {
+        const star = document.createElement("span");
+        star.className = "star";
+        star.style.setProperty("--x", `${Math.random() * 100}%`);
+        star.style.setProperty("--y", `${Math.random() * 62}%`);
+        star.style.setProperty("--s", `${Math.random() * 2.8 + 1.2}px`);
+        star.style.setProperty("--duration", `${Math.random() * 3.8 + 2.1}s`);
+        star.style.setProperty("--delay", `${Math.random() * -7}s`);
+        skyLayer.appendChild(star);
+      }
+
+      for (let i = 0; i < 4; i++) {
+        const shooting = document.createElement("span");
+        shooting.className = "shooting-star";
+        shooting.style.setProperty("--top", `${Math.random() * 34 + 8}%`);
+        shooting.style.setProperty("--left", `${Math.random() * 48 - 16}%`);
+        shooting.style.setProperty("--duration", `${Math.random() * 8 + 9}s`);
+        shooting.style.setProperty("--delay", `${Math.random() * -18}s`);
+        skyLayer.appendChild(shooting);
+      }
+
+      for (let i = 0; i < 2; i++) {
+        const comet = document.createElement("span");
+        comet.className = "comet";
+        comet.style.setProperty("--top", `${Math.random() * 26 + 10}%`);
+        comet.style.setProperty("--left", `${Math.random() * 32 - 12}%`);
+        comet.style.setProperty("--duration", `${Math.random() * 11 + 13}s`);
+        comet.style.setProperty("--delay", `${Math.random() * -20}s`);
+        skyLayer.appendChild(comet);
+      }
+    }
+
+    function addRomanticEffects() {
+      const total = window.innerWidth < 640 ? 18 : 34;
+
+      for (let i = 0; i < total; i++) {
+        const sparkle = document.createElement("span");
+        sparkle.className = "sparkle";
+        sparkle.textContent = i % 2 === 0 ? "✦" : "✧";
+        sparkle.style.setProperty("--x", `${Math.random() * 94 + 3}%`);
+        sparkle.style.setProperty("--y", `${Math.random() * 76 + 8}%`);
+        sparkle.style.setProperty("--s", `${Math.random() * 13 + 12}px`);
+        sparkle.style.setProperty("--duration", `${Math.random() * 5 + 4}s`);
+        sparkle.style.setProperty("--delay", `${Math.random() * -8}s`);
+        effectsLayer.appendChild(sparkle);
+      }
+
+      for (let i = 0; i < 18; i++) {
+        const heart = document.createElement("span");
+        heart.className = "mini-heart";
+        heart.textContent = "♥";
+        heart.style.setProperty("--x", `${Math.random() * 90 + 5}%`);
+        heart.style.setProperty("--y", `${Math.random() * 80 + 8}%`);
+        heart.style.setProperty("--s", `${Math.random() * 13 + 10}px`);
+        heart.style.setProperty("--duration", `${Math.random() * 5 + 5}s`);
+        heart.style.setProperty("--delay", `${Math.random() * -9}s`);
+        effectsLayer.appendChild(heart);
+      }
+    }
+
+    function updateMoonPhase() {
+      const now = new Date();
+      const synodicMonth = 29.530588853;
+      const knownNewMoonUTC = Date.UTC(2000, 0, 6, 18, 14, 0);
+      const daysSince = (now.getTime() - knownNewMoonUTC) / 86400000;
+      const age = ((daysSince % synodicMonth) + synodicMonth) % synodicMonth;
+      const phase = age / synodicMonth;
+      const index = Math.floor((phase * 8) + 0.5) % 8;
+      const current = phaseNames[index];
+
+      moon.className = `moon ${current.key}`;
+      moonLabel.textContent = "";
+    }
+
+    function render(mode) {
+      const current = mode === "auto" ? getAutoPeriod() : mode;
+      const defaultInfo = periodInfo[current];
+      const specialOccasion = getSpecialOccasion();
+      const specialInfo = specialOccasion ? specialOccasionContent[specialOccasion][current] : null;
+      const info = specialInfo || defaultInfo;
+      const phraseList = info.phrases;
+      const noteList = info.notes || dailyWishes;
+
+      body.classList.remove("morning", "afternoon", "night");
+      body.classList.add(current);
+
+      periodBadge.textContent = info.badge;
+      mainTitle.textContent = info.title;
+      subtitle.textContent = info.subtitle;
+      phrase.textContent = phraseList[seededIndex(phraseList.length, current.length * 3)];
+      dailyNote.textContent = noteList[seededIndex(noteList.length, current.length * 9)];
+      signature.textContent = info.signature;
+
+      clearGenerated();
+      addRomanticEffects();
+      updateMoonPhase();
+
+      if (current === "night") {
+        addStars();
+      } else {
+        addClouds();
+        addBirds();
+      }
+
+      buttons.forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.mode === mode);
+      });
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        forcedMode = button.dataset.mode;
+        render(forcedMode);
+      });
+    });
+
+    function rand(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function clamp(n, min, max) {
+      return Math.max(min, Math.min(max, n));
+    }
+
+    const petStates = [
+      {
+        id: "yuancito",
+        el: document.getElementById("yuancito"),
+        x: 35,
+        y: 0,
+        targetX: 160,
+        targetY: 0,
+        speed: 0.058,
+        dir: 1,
+        zoneStart: 0.03,
+        zoneEnd: 0.20,
+        nextRetarget: 0,
+        nextBubble: 1300,
+        bubbleUntil: 0,
+        trailAt: 0,
+        trail: "💗",
+        bubble: makeBubble("yuancito")
+      },
+      {
+        id: "catGray",
+        el: document.getElementById("catGray"),
+        x: 230,
+        y: 0,
+        targetX: 330,
+        targetY: 0,
+        speed: 0.052,
+        dir: 1,
+        zoneStart: 0.22,
+        zoneEnd: 0.39,
+        nextRetarget: 0,
+        nextBubble: 3200,
+        bubbleUntil: 0,
+        trailAt: 0,
+        trail: "🐾",
+        bubble: makeBubble("catGray")
+      },
+      {
+        id: "catBlack",
+        el: document.getElementById("catBlack"),
+        x: 450,
+        y: 0,
+        targetX: 560,
+        targetY: 0,
+        speed: 0.050,
+        dir: -1,
+        zoneStart: 0.42,
+        zoneEnd: 0.58,
+        nextRetarget: 0,
+        nextBubble: 5200,
+        bubbleUntil: 0,
+        trailAt: 0,
+        trail: "✨",
+        bubble: makeBubble("catBlack")
+      },
+      {
+        id: "catBone",
+        el: document.getElementById("catBone"),
+        x: 670,
+        y: 0,
+        targetX: 760,
+        targetY: 0,
+        speed: 0.049,
+        dir: -1,
+        zoneStart: 0.62,
+        zoneEnd: 0.77,
+        nextRetarget: 0,
+        nextBubble: 7200,
+        bubbleUntil: 0,
+        trailAt: 0,
+        trail: "💚",
+        bubble: makeBubble("catBone")
+      },
+      {
+        id: "catOrange",
+        el: document.getElementById("catOrange"),
+        x: 870,
+        y: 0,
+        targetX: 970,
+        targetY: 0,
+        speed: 0.051,
+        dir: -1,
+        zoneStart: 0.80,
+        zoneEnd: 0.97,
+        nextRetarget: 0,
+        nextBubble: 9200,
+        bubbleUntil: 0,
+        trailAt: 0,
+        trail: "🐾",
+        bubble: makeBubble("catOrange")
+      }
+    ];
+
+    function makeBubble(id) {
+      const bubble = document.createElement("div");
+      bubble.className = "pet-bubble";
+      bubble.dataset.pet = id;
+      petZone.appendChild(bubble);
+      return bubble;
+    }
+
+    function isMobilePets() {
+      return window.innerWidth <= 640;
+    }
+
+    function activeMobileCatId(timestamp = performance.now()) {
+      const cats = ["catOrange", "catBlack", "catGray", "catBone"];
+      const index = Math.floor(timestamp / 9000) % cats.length;
+      return cats[index];
+    }
+
+    function petIsVisibleNow(pet, timestamp = performance.now()) {
+      if (!isMobilePets()) return true;
+      if (pet.id === "yuancito") return true;
+      return pet.id === activeMobileCatId(timestamp);
+    }
+
+    function setNewPetTarget(pet, timestamp = performance.now()) {
+      const width = petZone.clientWidth || window.innerWidth;
+      const petWidth = pet.id === "yuancito" ? 76 : 88;
+
+      let minX;
+      let maxX;
+
+      if (isMobilePets()) {
+        if (pet.id === "yuancito") {
+          minX = Math.max(8, width * 0.05);
+          maxX = Math.min(width - petWidth - 8, width * 0.36);
+        } else {
+          minX = Math.max(8, width * 0.56);
+          maxX = Math.min(width - petWidth - 8, width * 0.92);
+        }
+      } else {
+        minX = Math.max(8, width * pet.zoneStart);
+        maxX = Math.max(minX + 24, Math.min(width - petWidth - 8, width * pet.zoneEnd));
+      }
+
+      pet.targetX = rand(minX, Math.max(minX + 18, maxX));
+      pet.targetY = 0;
+      pet.speed = rand(0.040, pet.id === "yuancito" ? 0.066 : 0.060);
+      pet.nextRetarget = timestamp + rand(8600, 15800);
+    }
+
+
+    function visiblePetBubbleCount() {
+      return petStates.reduce((total, pet) => total + (pet.bubbleUntil ? 1 : 0), 0);
+    }
+
+    function showPetBubble(pet, timestamp) {
+      const messages = petMessages[pet.id];
+      const selectedMessage = messages[Math.floor(Math.random() * messages.length)];
+      const messageLength = selectedMessage.length;
+
+      pet.bubble.textContent = selectedMessage;
+      pet.bubble.classList.add("show");
+
+      const extraReadingTime = Math.min(2600, Math.max(350, messageLength * 24));
+
+      if (isMobilePets()) {
+        pet.bubbleUntil = timestamp + rand(2200, 3200) + extraReadingTime;
+        pet.nextBubble = timestamp + rand(8200, 13600);
+      } else {
+        pet.bubbleUntil = timestamp + rand(3600, 5200) + extraReadingTime;
+        pet.nextBubble = timestamp + rand(9800, 17200);
+      }
+    }
+
+    function hidePetBubble(pet) {
+      pet.bubble.classList.remove("show");
+      pet.bubbleUntil = 0;
+    }
+
+    function addTrail(pet, timestamp) {
+      if (timestamp < pet.trailAt) return;
+      if (isMobilePets() && pet.id !== "yuancito" && Math.random() < 0.45) return;
+      pet.trailAt = timestamp + rand(560, 980);
+
+      const mark = document.createElement("span");
+      mark.className = "trail";
+      mark.textContent = pet.trail;
+      mark.style.left = `${pet.x + (pet.dir > 0 ? 14 : 62)}px`;
+      mark.style.bottom = `6px`;
+      mark.style.color = pet.trail === "🐾" ? "rgba(110, 80, 90, 0.58)" : "";
+      petZone.appendChild(mark);
+
+      window.setTimeout(() => mark.remove(), 2100);
+    }
+
+    function updatePetBubblePosition(pet) {
+      const width = petZone.clientWidth || window.innerWidth;
+      const petWidth = pet.id === "yuancito" ? 78 : 88;
+      const bubbleWidth = isMobilePets() ? 128 : 168;
+      const petCenter = pet.x + (petWidth / 2);
+      const left = clamp(petCenter - (bubbleWidth / 2), 8, width - bubbleWidth - 8);
+      const bottom = isMobilePets()
+        ? (pet.id === "yuancito" ? 46 : 54)
+        : (pet.id === "yuancito" ? 50 : 58);
+
+      pet.bubble.style.left = `${left}px`;
+      pet.bubble.style.width = `${bubbleWidth}px`;
+      pet.bubble.style.bottom = `${bottom}px`;
+    }
+
+    let lastMobileCatId = activeMobileCatId();
+
+    function updatePets(timestamp) {
+      const width = petZone.clientWidth || window.innerWidth;
+
+      const currentMobileCatId = activeMobileCatId(timestamp);
+      if (currentMobileCatId !== lastMobileCatId) {
+        lastMobileCatId = currentMobileCatId;
+        petStates.forEach(pet => {
+          if (pet.id !== "yuancito") {
+            setNewPetTarget(pet, timestamp);
+          }
+        });
+      }
+
+      petStates.forEach((pet, index) => {
+        const visible = petIsVisibleNow(pet, timestamp);
+
+        pet.el.classList.toggle("mobile-off", !visible);
+        pet.bubble.classList.toggle("mobile-off", !visible);
+
+        if (!visible) {
+          return;
+        }
+
+        if (!pet.nextRetarget || timestamp > pet.nextRetarget) {
+          setNewPetTarget(pet, timestamp);
+        }
+
+        const dx = pet.targetX - pet.x;
+        const dy = pet.targetY - pet.y;
+
+        if (Math.abs(dx) < 18 && Math.abs(dy) < 8) {
+          setNewPetTarget(pet, timestamp);
+        }
+
+        pet.x += dx * pet.speed * 0.0105;
+        pet.y = 0;
+
+        const petWidth = pet.id === "yuancito" ? 78 : 88;
+        let minX;
+        let maxX;
+
+        if (isMobilePets()) {
+          if (pet.id === "yuancito") {
+            minX = Math.max(0, width * 0.04);
+            maxX = Math.min(width - petWidth, width * 0.38);
+          } else {
+            minX = Math.max(0, width * 0.54);
+            maxX = Math.min(width - petWidth, width * 0.94);
+          }
+        } else {
+          minX = Math.max(0, width * pet.zoneStart - 8);
+          maxX = Math.min(width - petWidth, width * pet.zoneEnd + 8);
+        }
+
+        pet.x = clamp(pet.x, minX, maxX);
+        pet.dir = dx >= 0 ? -1 : 1;
+
+        if (!isMobilePets()) {
+          for (let j = 0; j < index; j++) {
+            const other = petStates[j];
+            const minGap = 72;
+            const distance = pet.x - other.x;
+            if (Math.abs(distance) < minGap) {
+              const push = (minGap - Math.abs(distance)) * 0.008;
+              pet.x += distance >= 0 ? push : -push;
+            }
+          }
+        }
+
+        const tinyTurn = Math.sin(timestamp / (3200 + index * 220)) * 0.35;
+        pet.el.style.transform = `translate(${pet.x}px, 0px) scaleX(${pet.dir}) rotate(${tinyTurn}deg)`;
+
+        updatePetBubblePosition(pet);
+        addTrail(pet, timestamp);
+
+        const maxVisibleBubbles = isMobilePets() ? 1 : 2;
+        if (timestamp > pet.nextBubble && !pet.bubbleUntil && visiblePetBubbleCount() < maxVisibleBubbles) {
+          showPetBubble(pet, timestamp);
+        }
+
+        if (pet.bubbleUntil && timestamp > pet.bubbleUntil) {
+          hidePetBubble(pet);
+        }
+      });
+
+      requestAnimationFrame(updatePets);
+    }
+
+    petStates.forEach((pet, index) => {
+      setNewPetTarget(pet, performance.now() + index * 400);
+    });
+
+    render("auto");
+    requestAnimationFrame(updatePets);
+
+    setInterval(() => {
+      if (forcedMode === "auto") render("auto");
+      updateMoonPhase();
+    }, 60 * 1000);
+
+    window.addEventListener("resize", () => {
+      render(forcedMode);
+      petStates.forEach(pet => setNewPetTarget(pet));
+    });
+  </script>
+</body>
+</html>
